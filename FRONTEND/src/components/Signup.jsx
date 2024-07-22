@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const SignUp = () => {
-  const [username, setUserName] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [err, setErr] = useState('');
   const navigate = useNavigate();
@@ -13,18 +12,12 @@ const SignUp = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/signup', {
-        username,
-        password
-      });
-      console.log(response)
+      const response = await axios.post('http://localhost:3000/api/auth/signup', { username, password });
       if (response.status === 200) {
-        navigate("/sign-in")
+        navigate('/sign-in');
       }
     } catch (error) {
-      if (error.response.status === 400) console.log('400')
-      if (error.response.status === 500) console.log('500')
-      setErr(error.response.data.message)
+      setErr(error.response.data.message);
     }
   };
 
@@ -35,13 +28,13 @@ const SignUp = () => {
           <form onSubmit={handleSubmit}>
             <h3>Sign Up</h3>
             <div className="mb-3">
-              <label>UserName</label>
+              <label>Username</label>
               <input
                 type="text"
                 className="form-control"
                 placeholder="Enter username"
                 value={username}
-                onChange={(e) => setUserName(e.target.value)}
+                onChange={(e) => setUsername(e.target.value)}
                 required
               />
             </div>
@@ -61,9 +54,6 @@ const SignUp = () => {
                 Sign Up
               </button>
             </div>
-            <p className="forgot-password text-right">
-              Already registered <a href="/sign-in">sign in?</a>
-            </p>
             <div>
               <h4>{err}</h4>
             </div>
@@ -71,8 +61,9 @@ const SignUp = () => {
         </div>
       </div>
     </div>
-
   );
 };
 
 export default SignUp;
+
+

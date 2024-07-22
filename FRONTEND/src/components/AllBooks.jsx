@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
-import { useAuth } from '../context/UserContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectBooks, setBooks } from '../redux/slice/book';
+import { selectUser } from '../redux/slice/auth';
 
 const AllBooks = () => {
-    const { isAdminVal } = useAuth();
-    const [books, setBooks] = useState([]);
+    const dispatch = useDispatch();
+    const books = useSelector(selectBooks);
+    const user = useSelector(selectUser);
 
     useEffect(() => {
         getBookList();
@@ -13,17 +16,19 @@ const AllBooks = () => {
     const getBookList = async () => {
         try {
             const response = await axios.get('http://localhost:3000/api/books');
-            setBooks(response.data.books);
+            dispatch(setBooks(response.data.books));
         } catch (error) {
             console.log('Error fetching books:', error);
         }
     };
 
     const handleBookAction = (book) => {
-        if (isAdminVal.role === 'admin') {
-            console.log(`Deleting book: ${book.name}`);           
+        if (user && user.isAdmin) {
+            console.log(`Deleting book: ${book.name}`);
+            // Implement delete book logic
         } else {
             console.log(`Issuing book: ${book.name}`);
+            // Implement issue book logic
         }
     };
 
@@ -49,7 +54,7 @@ const AllBooks = () => {
                             <td>{book.genre}</td>
                             <td>
                                 <button className="action-button" onClick={() => handleBookAction(book)}>
-                                    {isAdminVal.role ? 'Delete Book' : 'Issue Book'}
+                                    {user && user.isAdmin ? 'Delete Book' : 'Issue Book'}
                                 </button>
                             </td>
                         </tr>
@@ -61,3 +66,4 @@ const AllBooks = () => {
 };
 
 export default AllBooks;
+

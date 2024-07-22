@@ -1,36 +1,30 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';;
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../context/UserContext';
+import { setUser, setError } from '../redux/slice/auth';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { setRole } = useAuth();
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
-    const payload = {
-      username: username,
-      password: password
-    }
-
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', payload);
-      const isAdmin = response.data.isAdmin
-      isAdmin ? navigate("/home") : navigate("/all-books")
-      setRole(isAdmin)
+      const response = await axios.post('http://localhost:3000/api/auth/login', { username, password });
+      dispatch(setUser(response.data));
+      navigate('/home');
     } catch (error) {
-      console.error('Error submitting login:', error);
+      dispatch(setError(error.response.data.message));
     }
   };
 
-
   return (
     <div className="auth-wrapper">
-      <div className="auth-inner p-4 shadow" >
+      <div className="auth-inner p-4 shadow">
         <form onSubmit={handleFormSubmit}>
           <h3>Sign In</h3>
           <div className="mb-3">
@@ -60,9 +54,6 @@ const Login = () => {
             <button type="submit" className="btn btn-primary">
               Submit
             </button>
-            <p className="forgot-password text-right">
-              Not registered <a href="/sign-up">sign up?</a>
-            </p>
           </div>
         </form>
       </div>
@@ -71,3 +62,4 @@ const Login = () => {
 };
 
 export default Login;
+

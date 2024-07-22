@@ -1,7 +1,4 @@
 import React from 'react'
-import { IoPerson } from "react-icons/io5";
-import { FaHeartbeat } from "react-icons/fa";
-// import { FaBagShopping } from "react-icons/fa6";
 import { Link } from 'react-router-dom';
 
 const Header = () => {
@@ -9,13 +6,13 @@ const Header = () => {
     return (
         <header>
             <div className="logo_container">
-                <Link to="/home">Library Management System</Link>
+                <span className="action_name">Library Management System</span>
             </div>
             <nav className="nav_bar">
                 <div className='link'>
                     <Link to='/all-books'>All books</Link>
                 </div>
-                <div className='link'>  
+                <div className='link'>
                     <Link to='/all-books'>Issued books</Link>
                 </div>
                 <div className='link'>
@@ -30,13 +27,11 @@ const Header = () => {
             </nav>
             <div className="action_bar">
                 <div className="action_container">
-                    <IoPerson />
-                    <span className="action_name">Profile</span>
+                    <Link to='/sign-in' className="action_name">Login</Link>
                 </div>
 
                 <div className="action_container">
-                    <FaHeartbeat />
-                    <span className="action_name">Wishlist</span>
+                    <Link to='/sign-up' className="action_name">SignUp</Link>
                 </div>
             </div>
         </header>
