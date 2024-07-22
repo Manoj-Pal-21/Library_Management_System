@@ -8,9 +8,10 @@ const generateTokenAndSetCookie = (userId, isAdmin, res) => {
     res.cookie("token", token, {
         maxAge: 15 * 24 * 60 * 60 * 1000, // ms
         httpOnly: true,
-        sameSize: "strict",
-        secure: process.env.NODE_ENV !== "devlopment"
+        sameSize: "strict"
     })
+
+    return token
 }
 
 module.exports = { generateTokenAndSetCookie };

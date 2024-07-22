@@ -10,7 +10,7 @@ const login = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ username }, { password: 0 });
 
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
@@ -23,7 +23,8 @@ const login = async (req, res) => {
 
     const token = generateTokenAndSetCookie(user._id, user.isAdmin, res);
 
-    res.status(200).json({ token, isAdmin: user.isAdmin, message: "Login Successfull" })
+
+    res.status(200).json({ token, user: user, message: "Login Successfull" })
 
   } catch (err) {
     res.status(500).json({ message: err.message });
