@@ -31,7 +31,7 @@ const SignUp = () => {
   return (
     <div className='container'>
       <div className="auth-wrapper">
-        <div className="auth-inner">
+        <div className="auth-inner p-4 shadow">
           <form onSubmit={handleSubmit}>
             <h3>Sign Up</h3>
             <div className="mb-3">

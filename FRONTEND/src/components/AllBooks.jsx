@@ -1,28 +1,36 @@
-
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'
-const AllBooks = () => {
+import axios from 'axios';
+import { useAuth } from '../context/UserContext';
 
+const AllBooks = () => {
+    const { isAdminVal } = useAuth();
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
         getBookList();
-    }, [])
+    }, []);
 
     const getBookList = async () => {
         try {
-            const list = await axios.get('http://localhost:3000/api/books');
-            setBooks(list.data.books)
-
+            const response = await axios.get('http://localhost:3000/api/books');
+            setBooks(response.data.books);
         } catch (error) {
-            console.log(error)
+            console.log('Error fetching books:', error);
         }
-    }
+    };
+
+    const handleBookAction = (book) => {
+        if (isAdminVal.role === 'admin') {
+            console.log(`Deleting book: ${book.name}`);           
+        } else {
+            console.log(`Issuing book: ${book.name}`);
+        }
+    };
 
     return (
-        <div>
+        <div className="book-list-container">
             <h2>Book List</h2>
-            <table>
+            <table className="book-table">
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -39,18 +47,17 @@ const AllBooks = () => {
                             <td>{book.author}</td>
                             <td>{book.availabilityStatus ? 'Available' : 'Not Available'}</td>
                             <td>{book.genre}</td>
-                            <td><button onClick={() => handleBookIssue(book)}>Issue Book</button></td>
+                            <td>
+                                <button className="action-button" onClick={() => handleBookAction(book)}>
+                                    {isAdminVal.role ? 'Delete Book' : 'Issue Book'}
+                                </button>
+                            </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
         </div>
     );
-}
-
-const handleBookIssue = (book) => {
-
-    console.log(`Issuing book: ${book.name}`);
-}
+};
 
 export default AllBooks;

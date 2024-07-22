@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../context/UserContext';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
+  const { setRole } = useAuth();
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -16,9 +18,10 @@ const Login = () => {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', payload);   
+      const response = await axios.post('http://localhost:3000/api/auth/login', payload);
       const isAdmin = response.data.isAdmin
       isAdmin ? navigate("/home") : navigate("/all-books")
+      setRole(isAdmin)
     } catch (error) {
       console.error('Error submitting login:', error);
     }
@@ -27,7 +30,7 @@ const Login = () => {
 
   return (
     <div className="auth-wrapper">
-      <div className="auth-inner">
+      <div className="auth-inner p-4 shadow" >
         <form onSubmit={handleFormSubmit}>
           <h3>Sign In</h3>
           <div className="mb-3">

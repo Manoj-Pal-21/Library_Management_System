@@ -9,13 +9,13 @@ const Header = () => {
     return (
         <header>
             <div className="logo_container">
-                <Link to="/">Library Management System</Link>
+                <Link to="/home">Library Management System</Link>
             </div>
             <nav className="nav_bar">
                 <div className='link'>
                     <Link to='/all-books'>All books</Link>
                 </div>
-                <div className='link'>
+                <div className='link'>  
                     <Link to='/all-books'>Issued books</Link>
                 </div>
                 <div className='link'>

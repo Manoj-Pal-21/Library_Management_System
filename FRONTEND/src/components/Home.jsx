@@ -1,22 +1,18 @@
-import React from 'react'
+import React from 'react';
+
 
 const Home = () => {
+  const username = "raj pal";
+  const isAdmin = false;
+
   return (
-    <div className='main'>
-      <div className='container'>
-        <div className='inner-wrapper'>
-          <div className='row'>
-
-            <div className='col col-12 col-sm-9 col-md-8'>
-              <div className='main-content'>
-
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="container">
+      <div className="card text-center">
+        <h2>Welcome, {username}!</h2>
+        {isAdmin ? <p>You are an admin.</p> : <p>You are not an admin.</p>}
       </div>
     </div>
-  )
+  );
 }
 
 export default Home;
