@@ -54,7 +54,7 @@ const AllBooks = () => {
                             <td>{book.genre}</td>
                             <td>
                                 <button className="action-button" onClick={() => handleBookAction(book)}>
-                                    {user && user.isAdmin ? 'Delete Book' : 'Issue Book'}
+                                    {user && user.user.isAdmin ? 'Delete Book' : 'Issue Book'}
                                 </button>
                             </td>
                         </tr>
