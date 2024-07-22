@@ -5,9 +5,12 @@ const dotenv = require('dotenv');
 const authRoutes = require('./routes//auth');
 const booksRoutes = require('./routes/books');
 const transactionsRoutes = require('./routes/transactions');
+const cors = require('cors');
 dotenv.config();
 
 const app = express();
+
+app.use(cors())
 
 // Middleware
 app.use(bodyParser.json());
@@ -15,7 +18,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 
 // Routes
-app.post('/api/auth', authRoutes);
+// app.use('/api/auth/signup', (req, res) => {
+
+//   console.log(req.body)
+// })
+app.use('/api/auth', authRoutes);
 app.use('/api/books', booksRoutes);
 app.use('/api/transactions', transactionsRoutes);
 

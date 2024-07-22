@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const User = require('../models/user');
+const { generateTokenAndSetCookie } = require('../utils/generateToken')
 
 const login = async (req, res) => {
   const { username, password } = req.body;
@@ -11,17 +11,20 @@ const login = async (req, res) => {
 
   try {
     const user = await User.findOne({ username });
+
     if (!user) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = bcrypt.compare(password, user?.password || '');
     if (!isMatch) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
 
-    const token = generateToken(user._id, user.username, user.isAdmin);
-    res.json({ token });
+    const token = generateTokenAndSetCookie(user._id, user.isAdmin, res);
+
+    res.status(200).json({ token, isAdmin: user.isAdmin, message: "Login Successfull" })
+
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
@@ -29,6 +32,7 @@ const login = async (req, res) => {
 
 
 const signup = async (req, res) => {
+
   const { username, password, isAdmin } = req.body;
 
   if (!username || !password) {
@@ -41,10 +45,11 @@ const signup = async (req, res) => {
       return res.status(400).json({ message: 'Username already taken' });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     const validatedIsAdmin = isAdmin === true || isAdmin === 'true';
 
+
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
     const newUser = new User({
       username,
       password: hashedPassword,
@@ -53,10 +58,9 @@ const signup = async (req, res) => {
 
     await newUser.save();
 
-    const token = generateToken(newUser._id, newUser.username, newUser.isAdmin);
-    res.status(201).json({ token });
+    res.status(200).json({ message: 'User registered successfully' });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({ message: "Internal Server Error" });
   }
 };
 

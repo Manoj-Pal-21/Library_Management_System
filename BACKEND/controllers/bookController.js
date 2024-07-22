@@ -1,9 +1,46 @@
 const Book = require('../models/book');
 
+function filterBookFields(books) {
+  return books.map(book => {
+    // Destructure the book object to exclude borrower and quantity
+    const { borrower, quantity, ...rest } = book;
+    return rest; // Return the modified book object without borrower and quantity
+  });
+}
+const booksList = [
+  {
+    name: 'The Catcher in the Rye',
+    author: 'J.D. Salinger',
+    availabilityStatus: true,
+    quantity: 5,
+    genre: 'Fiction',
+    borrower: [] // Empty array for now
+  },
+  {
+    name: 'To Kill a Mockingbird',
+    author: 'Harper Lee',
+    availabilityStatus: true,
+    quantity: 3,
+    genre: 'Classic',
+    borrower: []
+  },
+  {
+    name: '1984',
+    author: 'George Orwell',
+    availabilityStatus: false, // Book is currently unavailable
+    quantity: 2,
+    genre: 'Dystopian',
+    borrower: []
+  }
+];
+
+
 const getAllBooks = async (req, res) => {
   try {
-    const books = await Book.find();
-    res.json(books);
+
+    // const books = await Book.find();
+    const books = filterBookFields(booksList)
+    res.status(200).json({ books })
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
