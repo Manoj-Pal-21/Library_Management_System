@@ -11,7 +11,7 @@ const CustomTable = ({ data }) => {
     }
 
     return (
-        <div className="container-fluid p-4">
+        <div className="container-fluid p-2">
             <table className="table table-striped">
                 <thead className="thead-dark">
                     <tr>
@@ -25,13 +25,13 @@ const CustomTable = ({ data }) => {
                     {data.map((book, rowIndex) => (
                         <tr key={rowIndex}>
                             {Object.keys(book).map((key, colIndex) => (
-                                key !== 'id' && 
+                                key !== 'id' &&
                                 <td key={colIndex}>{book[key]}</td>
                             ))}
                             <td>
                                 <div className="btn-group" role="group">
-                                    <button className='btn btn-primary' onClick={() => handleAccept(book.id)}>ACCEPT</button>
-                                    <button className='btn btn-danger' onClick={() => handleReject(book.id)}>REJECT</button>
+                                    <button className='btn btn-success btn-sm mr-2' onClick={() => handleAccept(book.id)}>ACCEPT</button>
+                                    <button className='btn btn-danger btn-sm' onClick={() => handleReject(book.id)}>REJECT</button>
                                 </div>
                             </td>
                         </tr>

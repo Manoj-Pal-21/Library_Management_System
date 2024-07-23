@@ -30,7 +30,8 @@ const BookRequest = () => {
   if (!user?.isAdmin) return <UnAuthorized />
 
   return (
-    <div>
+    <div className="book-list-container">
+      <h2>ISSUED BOOKS REQUEST</h2>
       {requests.length > 0 && <CustomTable data={requests} />}
     </div>
   );
