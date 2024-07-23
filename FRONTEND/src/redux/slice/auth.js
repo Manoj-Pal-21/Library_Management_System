@@ -14,10 +14,13 @@ const authSlice = createSlice({
         logout(state) {
             state.user = null;
         },
+        resetAuth(state) {
+            state = initialState
+        }
     },
 });
 
-export const { setUser, logout } = authSlice.actions;
+export const { setUser, logout, resetAuth } = authSlice.actions;
 
 export const selectUser = (state) => state.auth.user;
 

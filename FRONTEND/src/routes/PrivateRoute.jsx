@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getCookie } from '../utils/Cookie';
+import { resetRedux } from '../redux/store';
+
 
 
 const PrivateRoute = ({ element }) => {
@@ -9,7 +11,10 @@ const PrivateRoute = ({ element }) => {
 
   useEffect(() => {
     if (token) navigate("/");
-    else navigate("/sign-in");
+    else {
+      resetRedux();
+      navigate("/sign-in")
+    };
   }, [])
 
   return element;

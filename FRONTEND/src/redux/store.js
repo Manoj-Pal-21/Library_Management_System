@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import authReducer from './slice/auth';
-import booksReducer from './slice/book';
+import authReducer, { resetAuth } from './slice/auth';
+import booksReducer, { resetBook } from './slice/book';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage/session';
 
@@ -28,6 +28,11 @@ export const store = configureStore({
 });
 
 export const persistor = persistStore(store);
+
+export const resetRedux = () => {
+    store.dispatch(resetAuth());
+    store.dispatch(resetBook());
+};
 
 
 
