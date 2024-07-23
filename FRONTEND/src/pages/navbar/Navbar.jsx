@@ -15,7 +15,7 @@ const Navbar = () => {
     return (
         <header>
             <div className="logo_container">
-                <span className="action_name">Library Management System</span>
+                <Link to="/" className="action_name">Library Management System</Link>
             </div>
             <nav className="nav_bar">
                 <div className='link'>

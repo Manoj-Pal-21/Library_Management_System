@@ -5,7 +5,7 @@ import { selectUser } from '../redux/slice/auth';
 
 const AllBooksTable = () => {
     const books = useSelector(selectBooks);
-    const user = useSelector(selectUser);
+    const { user } = useSelector(selectUser);
 
     const handleBookAction = (book) => {
         if (user && user.isAdmin) {
@@ -38,7 +38,7 @@ const AllBooksTable = () => {
                             <td>{book.genre}</td>
                             <td>
                                 <button className="action-button" onClick={() => handleBookAction(book)}>
-                                    {user && user.user.isAdmin ? 'Delete Book' : 'Issue Book'}
+                                    {user && user?.isAdmin ? 'Delete Book' : 'Issue Book'}
                                 </button>
                             </td>
                         </tr>

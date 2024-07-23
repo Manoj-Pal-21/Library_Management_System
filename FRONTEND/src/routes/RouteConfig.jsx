@@ -5,6 +5,7 @@ import Login from '../pages/login/Login';
 import SignUp from '../pages/signup/Signup';
 import AllBooks from '../pages/book/AllBooks';
 import App from './App'
+import PrivateRoute from './PrivateRoute';
 
 
 const Router = createBrowserRouter([
@@ -14,19 +15,19 @@ const Router = createBrowserRouter([
         children: [
             {
                 path: '/',
-                element: <Home />,
+                element: <PrivateRoute element={<Home />} />,
             },
             {
                 path: '/sign-in',
-                element: <Login />,
+                element: <PrivateRoute element={<Login />} />,
             },
             {
                 path: '/sign-UP',
-                element: <SignUp />,
+                element: <PrivateRoute element={<SignUp />} />,
             },
             {
                 path: '/all-books',
-                element: <AllBooks />,
+                element: <PrivateRoute element={<AllBooks />} />,
             },
         ],
     },
