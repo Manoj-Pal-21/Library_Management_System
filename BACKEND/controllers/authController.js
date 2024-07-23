@@ -30,39 +30,51 @@ const login = async (req, res) => {
   }
 };
 
-
 const signup = async (req, res) => {
-
-  const { username, password, isAdmin } = req.body;
-
-  if (!username || !password) {
-    return res.status(400).json({ message: 'Username and password are required' });
-  }
+  const { username, password, name, email, contactNumber } = req.body;
 
   try {
-    const existingUser = await User.findOne({ username });
-    if (existingUser) {
+    // Check if username already exists
+    const existingUsername = await User.findOne({ username });
+    if (existingUsername) {
       return res.status(400).json({ message: 'Username already taken' });
     }
 
-    const validatedIsAdmin = isAdmin === true || isAdmin === 'true';
+    // Check if email already exists
+    const existingEmail = await User.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).json({ message: 'Email already registered' });
+    }
 
+    // Check if contact number already exists
+    const existingContactNumber = await User.findOne({ contactNumber });
+    if (existingContactNumber) {
+      return res.status(400).json({ message: 'Contact number already registered' });
+    }
 
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    // Hash the password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user instance
     const newUser = new User({
       username,
       password: hashedPassword,
-      isAdmin: validatedIsAdmin
+      name,
+      email,
+      contactNumber
     });
 
+    // Save the user to the database
     await newUser.save();
 
     res.status(200).json({ message: 'User registered successfully' });
   } catch (err) {
+    console.error(err);
     res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
 
 
 module.exports = { login, signup };

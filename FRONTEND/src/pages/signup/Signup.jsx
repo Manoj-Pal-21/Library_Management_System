@@ -4,17 +4,43 @@ import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 
 const SignUp = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [formData, setFormData] = useState({
+    username: '',
+    password: '',
+    name: '',
+    email: '',
+    contactNumber: ''
+  });
+
+  const { username, password, name, email, contactNumber } = formData;
   const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if username includes at least one number
+    if (!/\d/.test(username)) {
+      toast.error('Username must include at least one number.');
+      return;
+    }
+
+    // Convert username to lowercase
+    const lowerCaseUsername = username.toLowerCase();
+
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/signup', { username, password });
+      const response = await axios.post('http://localhost:3000/api/auth/signup', {
+        ...formData,
+        username: lowerCaseUsername
+      });
+
+      console.log(response)
+
       if (response.status === 200) {
-        navigate('/sign-in');
+        // navigate('/sign-in');
         toast.success('Signed up successfully! Please sign in.');
       }
     } catch (error) {
@@ -39,7 +65,7 @@ const SignUp = () => {
               id="username"
               placeholder="Enter username"
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={handleChange}
               required
             />
           </div>
@@ -51,8 +77,41 @@ const SignUp = () => {
               id="password"
               placeholder="Enter password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={handleChange}
               required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="name">Name</label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              placeholder="Enter your name"
+              value={name}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="email">Email</label>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              placeholder="Enter your email"
+              value={email}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="contactNumber">Contact Number</label>
+            <input
+              type="text"
+              className="form-control"
+              id="contactNumber"
+              placeholder="Enter your contact number"
+              value={contactNumber}
+              onChange={handleChange}
             />
           </div>
           <div className="d-grid">

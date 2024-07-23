@@ -6,6 +6,8 @@ import SignUp from '../pages/signup/Signup';
 import AllBooks from '../pages/book/AllBooks';
 import App from './App'
 import PrivateRoute from './PrivateRoute';
+import Error404 from '../components/Error404';
+import AddBookForm from '../pages/addBook/AddBooks';
 
 
 const Router = createBrowserRouter([
@@ -29,7 +31,15 @@ const Router = createBrowserRouter([
                 path: '/all-books',
                 element: <PrivateRoute element={<AllBooks />} />,
             },
+            {
+                path: '/add-books',
+                element: <PrivateRoute element={<AddBookForm />} />,
+            },
         ],
+    },
+    {
+        path: '*',
+        element: <Error404 />,
     },
 ]);
 

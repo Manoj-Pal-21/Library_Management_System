@@ -1,17 +1,18 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { getCookie } from '../utils/Cookie';
 import { resetRedux } from '../redux/store';
-
-
 
 const PrivateRoute = ({ element }) => {
   const token = getCookie("token");
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    if (token) navigate("/");
-    else {
+    if (token) {
+      if (['sign-up', 'sign-in']?.includes(location.pathname))
+        navigate("/");
+    } else {
       resetRedux();
       navigate("/sign-in")
     };

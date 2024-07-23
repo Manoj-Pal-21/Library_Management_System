@@ -22,6 +22,9 @@ const Navbar = () => {
                     <Link to='/all-books'>All books</Link>
                 </div>
                 <div className='link'>
+                    <Link to='/add-books'>Add Books</Link>
+                </div>
+                <div className='link'>
                     <Link to='/all-books'>Issued books</Link>
                 </div>
                 <div className='link'>

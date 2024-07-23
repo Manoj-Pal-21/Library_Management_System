@@ -2,38 +2,26 @@ const Book = require('../models/book');
 
 function filterBookFields(books) {
   return books.map(book => {
-    // Destructure the book object to exclude borrower and quantity
+
     const { borrower, quantity, ...rest } = book;
-    return rest; // Return the modified book object without borrower and quantity
+    return rest; 
   });
 }
-const booksList = [
-  {
-    name: 'The Catcher in the Rye',
-    author: 'J.D. Salinger',
-    availabilityStatus: true,
-    quantity: 5,
-    genre: 'Fiction',
-    borrower: [] // Empty array for now
-  },
-  {
-    name: 'To Kill a Mockingbird',
-    author: 'Harper Lee',
-    availabilityStatus: true,
-    quantity: 3,
-    genre: 'Classic',
-    borrower: []
-  },
-  {
-    name: '1984',
-    author: 'George Orwell',
-    availabilityStatus: false, // Book is currently unavailable
-    quantity: 2,
-    genre: 'Dystopian',
-    borrower: []
-  }
-];
 
+const addBook = async (req, res) => {
+  const book = new Book({
+    name: req.body.name,
+    author: req.body.author,
+    availabilityStatus: req.body.availabilityStatus || true,
+  });
+
+  try {
+    const newBook = await book.save();
+    res.status(201).json(newBook);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
 
 const getAllBooks = async (req, res) => {
   try {
@@ -56,19 +44,7 @@ const getBookById = async (req, res) => {
   }
 };
 
-const addBook = async (req, res) => {
-  const book = new Book({
-    name: req.body.name,
-    author: req.body.author,
-    availabilityStatus: req.body.availabilityStatus || true,
-  });
-  try {
-    const newBook = await book.save();
-    res.status(201).json(newBook);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
+
 
 const updateBook = async (req, res) => {
   try {
