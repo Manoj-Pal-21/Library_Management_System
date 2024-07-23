@@ -5,7 +5,6 @@ import { selectUser } from '../redux/slice/auth';
 import axios from 'axios';
 import { getToken } from '../utils/Cookie';
 
-
 const AllBooksTable = () => {
     const { books } = useSelector(selectBooks);
     const { user } = useSelector(selectUser);
@@ -15,25 +14,23 @@ const AllBooksTable = () => {
         if (user && user.isAdmin) {
             console.log(`Deleting book: ${book.name}`);
         } else {
-            issueBook(book._id)
+            issueBook(book._id);
         }
-    };  
+    };
 
     const issueBook = async (bookId) => {
         try {
-            const response = await axios.post(`http://localhost:3000/api/transactions/issueBook/${bookId}`,{}, token);
-            console.log(response)
-
+            const response = await axios.post(`http://localhost:3000/api/transactions/issueBook/${bookId}`, {}, token);
+            console.log(response);
         } catch (error) {
             console.log(error);
         }
-    }
-    
+    };
 
     return (
-        <>
-            <table className="book-table">
-                <thead>
+        <div className="table-responsive">
+            <table className="table table-striped">
+                <thead className="thead-dark">
                     <tr>
                         <th>Name</th>
                         <th>Author</th>
@@ -50,17 +47,18 @@ const AllBooksTable = () => {
                             <td>{book.availabilityStatus ? 'Available' : 'Not Available'}</td>
                             <td>{book.genre}</td>
                             <td>
-                                <button className="action-button" onClick={() => {
-                                    handleBookAction(book)
-                                }}>
-                                    {user && user?.isAdmin ? 'Delete Book' : 'Issue Book'}
+                                <button
+                                    className={`btn ${user && user.isAdmin ? 'btn-danger' : 'btn-primary'}`}
+                                    onClick={() => handleBookAction(book)}
+                                >
+                                    {user && user.isAdmin ? 'Delete Book' : 'Issue Book'}
                                 </button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-        </>
+        </div>
     );
 };
 

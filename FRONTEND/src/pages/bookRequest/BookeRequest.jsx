@@ -20,6 +20,7 @@ const BookRequest = () => {
   const fetchBookRequests = async () => {
     try {
       const response = await axios.get('http://localhost:3000/api/transactions/getbookrequest', token);
+      console.log(response.data)
       const data = response.data.map(item => ({ id: item._id, Name: item.userId.name, Book: item.bookId.name }));
       dispatch(setRequests(data));
     } catch (error) {
