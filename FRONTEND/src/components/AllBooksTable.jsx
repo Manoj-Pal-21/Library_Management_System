@@ -1,26 +1,11 @@
 import React, { useEffect } from 'react';
-import axios from 'axios';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectBooks, setBooks } from '../redux/slice/book';
+import { useSelector } from 'react-redux';
+import { selectBooks } from '../redux/slice/book';
 import { selectUser } from '../redux/slice/auth';
 
-const AllBooks = () => {
-    const dispatch = useDispatch();
+const AllBooksTable = () => {
     const books = useSelector(selectBooks);
     const user = useSelector(selectUser);
-
-    useEffect(() => {
-        getBookList();
-    }, []);
-
-    const getBookList = async () => {
-        try {
-            const response = await axios.get('http://localhost:3000/api/books');
-            dispatch(setBooks(response.data.books));
-        } catch (error) {
-            console.log('Error fetching books:', error);
-        }
-    };
 
     const handleBookAction = (book) => {
         if (user && user.isAdmin) {
@@ -33,8 +18,7 @@ const AllBooks = () => {
     };
 
     return (
-        <div className="book-list-container">
-            <h2>Book List</h2>
+        <>
             <table className="book-table">
                 <thead>
                     <tr>
@@ -61,9 +45,9 @@ const AllBooks = () => {
                     ))}
                 </tbody>
             </table>
-        </div>
+        </>
     );
 };
 
-export default AllBooks;
+export default AllBooksTable;
 
