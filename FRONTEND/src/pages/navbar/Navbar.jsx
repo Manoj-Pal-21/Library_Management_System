@@ -22,6 +22,9 @@ const Navbar = () => {
                 <div className='link'>
                     <Link to='/all-books'>All books</Link>
                 </div>
+                <div className='link'>
+                    <Link to='/issued-books'>Issued books</Link>
+                </div>
                 {user?.isAdmin &&
                     <>
                         <div className='link'>

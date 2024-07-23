@@ -9,6 +9,7 @@ import PrivateRoute from './PrivateRoute';
 import Error404 from '../components/Error404';
 import AddBookForm from '../pages/addBook/AddBooks';
 import BookeRequest from '../pages/bookRequest/BookeRequest';
+import IssuedBooks from '../pages/issuedBooks/IssuedBooks';
 
 
 const Router = createBrowserRouter([
@@ -31,6 +32,10 @@ const Router = createBrowserRouter([
             {
                 path: '/all-books',
                 element: <PrivateRoute element={<AllBooks />} />,
+            },
+            {
+                path: '/issued-books',
+                element: <PrivateRoute element={<IssuedBooks />} />,
             },
             {
                 path: '/add-books',

@@ -17,11 +17,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-// Routes
-// app.use('/api/auth/signup', (req, res) => {
-
-//   console.log(req.body)
-// })
 app.use('/api/auth', authRoutes);
 app.use('/api/books', booksRoutes);
 app.use('/api/transactions', transactionsRoutes);
