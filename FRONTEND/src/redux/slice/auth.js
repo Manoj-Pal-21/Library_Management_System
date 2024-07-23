@@ -12,12 +12,6 @@ const authSlice = createSlice({
         setUser(state, action) {
             state.user = action.payload;
         },
-        setError(state, action) {
-            state.error = action.payload;
-        },
-        clearError(state) {
-            state.error = null;
-        },
         logout(state) {
             state.user = null;
         },

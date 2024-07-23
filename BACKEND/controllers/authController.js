@@ -23,7 +23,6 @@ const login = async (req, res) => {
 
     const token = generateTokenAndSetCookie(user._id, user.isAdmin, res);
 
-
     res.status(200).json({ token, user: user, message: "Login Successfull" })
 
   } catch (err) {

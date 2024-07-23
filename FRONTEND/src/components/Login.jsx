@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';;
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
+import { setUser } from '../redux/slice/auth';
+import Cookies from 'js-cookie';
 import axios from 'axios';
-import { setUser, setError } from '../redux/slice/auth';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -14,13 +16,24 @@ const Login = () => {
     event.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/api/auth/login', { username, password });
+      const response = await axios.post('http://localhost:3000/api/auth/login', {
+        username,
+        password
+      });
+
       dispatch(setUser(response.data));
+      Cookies.set('token', response.data.token, { expires: 7 });
       navigate('/home');
+      toast.success(response.data.message);
     } catch (error) {
-      dispatch(setError(error.response.data.message));
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An unexpected error occurred');
+      }
     }
   };
+
 
   return (
     <div className="auth-wrapper">
@@ -56,6 +69,7 @@ const Login = () => {
             </button>
           </div>
         </form>
+        <Toaster />
       </div>
     </div>
   );

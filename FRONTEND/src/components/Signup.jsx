@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [err, setErr] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -15,9 +15,14 @@ const SignUp = () => {
       const response = await axios.post('http://localhost:3000/api/auth/signup', { username, password });
       if (response.status === 200) {
         navigate('/sign-in');
+        toast.success('Signed up successfully! Please sign in.');
       }
     } catch (error) {
-      setErr(error.response.data.message);
+      if (error.response && error.response.data && error.response.data.message) {
+        toast.error(error.response.data.message);
+      } else {
+        toast.error('An unexpected error occurred');
+      }
     }
   };
 
@@ -28,10 +33,11 @@ const SignUp = () => {
           <form onSubmit={handleSubmit}>
             <h3>Sign Up</h3>
             <div className="mb-3">
-              <label>Username</label>
+              <label htmlFor="username">Username</label>
               <input
                 type="text"
                 className="form-control"
+                id="username"
                 placeholder="Enter username"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -39,10 +45,11 @@ const SignUp = () => {
               />
             </div>
             <div className="mb-3">
-              <label>Password</label>
+              <label htmlFor="password">Password</label>
               <input
                 type="password"
                 className="form-control"
+                id="password"
                 placeholder="Enter password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -54,10 +61,8 @@ const SignUp = () => {
                 Sign Up
               </button>
             </div>
-            <div>
-              <h4>{err}</h4>
-            </div>
           </form>
+          <Toaster />
         </div>
       </div>
     </div>
@@ -65,5 +70,3 @@ const SignUp = () => {
 };
 
 export default SignUp;
-
-
