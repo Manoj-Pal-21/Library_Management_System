@@ -3,11 +3,11 @@ import { useDispatch } from 'react-redux';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { addBook } from '../../redux/slice/book';
-import { getCookie } from '../../utils/Cookie';
+import { getToken } from '../../utils/Cookie';
 
 const AddBookForm = () => {
   const dispatch = useDispatch();
-  const token = { headers: { 'Authorization': getCookie('token') } }
+  const token = getToken('token')
 
   const [formData, setFormData] = useState({
     name: '',
@@ -30,7 +30,7 @@ const AddBookForm = () => {
 
     try {
       const response = await axios.post('http://localhost:3000/api/books/add', formData, token);
-      dispatch(addBook(response.data)); 
+      dispatch(addBook(response.data));
       toast.success('Book added successfully!');
       setFormData({
         name: '',

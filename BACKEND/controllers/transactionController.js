@@ -1,5 +1,24 @@
 const Transaction = require('../models/transaction');
 
+const addTransaction = async (req, res) => {
+
+  const { userId } = req.user;
+  const { bookId } = req.params;
+
+  const newTransaction = new Transaction({
+    userId: userId,
+    bookId: bookId,
+    issueStatus: false,
+    transactionType: 'borrowed',
+  });
+  try {
+    const transaction = await newTransaction.save();
+    res.status(200).json(transaction);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
+
 const getAllTransactions = async (req, res) => {
   try {
     const transactions = await Transaction.find();
@@ -19,20 +38,6 @@ const getTransactionById = async (req, res) => {
   }
 };
 
-const addTransaction = async (req, res) => {
-  const transaction = new Transaction({
-    userDetails: req.body.userDetails,
-    bookDetails: req.body.bookDetails,
-    dueDate: req.body.dueDate,
-    transactionType: req.body.transactionType,
-  });
-  try {
-    const newTransaction = await transaction.save();
-    res.status(201).json(newTransaction);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
 
 const updateTransaction = async (req, res) => {
   try {

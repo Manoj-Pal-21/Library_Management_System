@@ -11,3 +11,7 @@ export const setCookie = (name, data, expires) => {
 export const deleteCookie = (name) => {
   Cookies.remove(name);
 };
+
+export const getToken = (name) => {
+  return { headers: { 'Authorization': Cookies.get(name) } }
+}

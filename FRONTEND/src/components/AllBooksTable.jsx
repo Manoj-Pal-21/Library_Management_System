@@ -2,21 +2,33 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectBooks } from '../redux/slice/book';
 import { selectUser } from '../redux/slice/auth';
+import axios from 'axios';
+import { getToken } from '../utils/Cookie';
+
 
 const AllBooksTable = () => {
     const { books } = useSelector(selectBooks);
     const { user } = useSelector(selectUser);
+    const token = getToken('token');
 
-
-    const handleBookAction = (book) => {
+    const handleBookAction = async (book) => {
         if (user && user.isAdmin) {
             console.log(`Deleting book: ${book.name}`);
-            // Implement delete book logic
         } else {
-            console.log(`Issuing book: ${book.name}`);
-            // Implement issue book logic
+            issueBook(book._id)
         }
-    };
+    };  
+
+    const issueBook = async (bookId) => {
+        try {
+            const response = await axios.post(`http://localhost:3000/api/transactions/issueBook/${bookId}`,{}, token);
+            console.log(response)
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    
 
     return (
         <>
@@ -38,7 +50,9 @@ const AllBooksTable = () => {
                             <td>{book.availabilityStatus ? 'Available' : 'Not Available'}</td>
                             <td>{book.genre}</td>
                             <td>
-                                <button className="action-button" onClick={() => handleBookAction(book)}>
+                                <button className="action-button" onClick={() => {
+                                    handleBookAction(book)
+                                }}>
                                     {user && user?.isAdmin ? 'Delete Book' : 'Issue Book'}
                                 </button>
                             </td>
