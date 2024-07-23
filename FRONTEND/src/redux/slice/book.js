@@ -1,3 +1,4 @@
+
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
@@ -18,13 +19,13 @@ const booksSlice = createSlice({
       state.books = state.books.filter(book => book.id !== action.payload);
     },
     resetBook(state) {
-      state = initialState
+      state.books = [];
     }
   },
 });
 
 export const { setBooks, addBook, deleteBook, resetBook } = booksSlice.actions;
 
-export const selectBooks = (state) => state.books.books;
+export const selectBooks = (state) => state.books;
 
 export default booksSlice.reducer;

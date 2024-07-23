@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectBooks } from '../redux/slice/book';
 import { selectUser } from '../redux/slice/auth';
 
 const AllBooksTable = () => {
-    const books = useSelector(selectBooks);
+    const { books } = useSelector(selectBooks);
     const { user } = useSelector(selectUser);
+
 
     const handleBookAction = (book) => {
         if (user && user.isAdmin) {
@@ -30,7 +31,7 @@ const AllBooksTable = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {books.map((book, index) => (
+                    {books?.map((book, index) => (
                         <tr key={index}>
                             <td>{book.name}</td>
                             <td>{book.author}</td>
@@ -50,4 +51,3 @@ const AllBooksTable = () => {
 };
 
 export default AllBooksTable;
-

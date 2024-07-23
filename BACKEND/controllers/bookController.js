@@ -2,9 +2,8 @@ const Book = require('../models/book');
 
 function filterBookFields(books) {
   return books.map(book => {
-
     const { borrower, quantity, ...rest } = book;
-    return rest; 
+    return rest;
   });
 }
 
@@ -12,6 +11,8 @@ const addBook = async (req, res) => {
   const book = new Book({
     name: req.body.name,
     author: req.body.author,
+    quantity: req.body.quantity,
+    genre: req.body.genre,
     availabilityStatus: req.body.availabilityStatus || true,
   });
 
@@ -25,10 +26,10 @@ const addBook = async (req, res) => {
 
 const getAllBooks = async (req, res) => {
   try {
-
-    // const books = await Book.find();
-    const books = filterBookFields(booksList)
-    res.status(200).json({ books })
+    const books = await Book.find();
+    const booksList = filterBookFields(books.map(item => item._doc));
+    // console.log(booksList)
+    res.status(200).json(booksList)
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
