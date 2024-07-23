@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const transactionSchema = new mongoose.Schema({
-  userId: { type: mongoose.Schema.Types.ObjectId },
-  bookId: { type: mongoose.Schema.Types.ObjectId },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+  bookId: { type: mongoose.Schema.Types.ObjectId, ref: 'Book' },
   issueStatus: { type: Boolean },
   issueDate: { type: Date },
   dueDate: { type: Date },

@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { addBook } from '../../redux/slice/book';
 import { getToken } from '../../utils/Cookie';
+import { selectUser } from '../../redux/slice/auth';
+import UnAuthorized from '../../components/UnAuthorized';
 
 const AddBookForm = () => {
+  const { user } = useSelector(selectUser);
   const dispatch = useDispatch();
   const token = getToken('token')
 
@@ -23,7 +26,6 @@ const AddBookForm = () => {
     setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
-  console.log(formData)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +49,8 @@ const AddBookForm = () => {
       }
     }
   };
+
+  if (!user?.isAdmin) return <UnAuthorized />
 
   return (
     <div className="auth-wrapper">

@@ -19,6 +19,26 @@ const addTransaction = async (req, res) => {
   }
 };
 
+const getBookRequest = async (req, res) => {
+  try {
+    const response = await Transaction.find({
+      transactionType: "borrowed",
+      issueStatus: false
+    })
+      .populate([
+        { path: 'userId', select: 'name' },
+        { path: 'bookId', select: 'name' }
+      ]);
+
+    res.status(200).json(response);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
+
 const getAllTransactions = async (req, res) => {
   try {
     const transactions = await Transaction.find();
@@ -64,4 +84,4 @@ const deleteTransaction = async (req, res) => {
   }
 };
 
-module.exports = { getAllTransactions, getTransactionById, addTransaction, updateTransaction, deleteTransaction };
+module.exports = { getAllTransactions, getTransactionById, addTransaction, updateTransaction, deleteTransaction, getBookRequest };

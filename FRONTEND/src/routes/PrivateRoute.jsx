@@ -8,9 +8,10 @@ const PrivateRoute = ({ element }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+
   useEffect(() => {
     if (token) {
-      if (['sign-up', 'sign-in']?.includes(location.pathname))
+      if (['/sign-up', '/sign-in']?.includes(location.pathname))
         navigate("/");
     } else {
       resetRedux();

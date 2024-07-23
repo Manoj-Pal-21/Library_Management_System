@@ -1,15 +1,16 @@
 import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
 import { deleteCookie } from '../../utils/Cookie';
+import { useSelector } from 'react-redux';
+import { selectUser } from '../../redux/slice/auth';
 
 const Navbar = () => {
-
+    const { user } = useSelector(selectUser);
     const navigate = useNavigate();
 
     const handleLogout = () => {
         deleteCookie('token')
         navigate('/sign-in')
-
     }
 
     return (
@@ -21,21 +22,16 @@ const Navbar = () => {
                 <div className='link'>
                     <Link to='/all-books'>All books</Link>
                 </div>
-                <div className='link'>
-                    <Link to='/add-books'>Add Books</Link>
-                </div>
-                <div className='link'>
-                    <Link to='/all-books'>Issued books</Link>
-                </div>
-                <div className='link'>
-                    <Link to='/all-books'>Recommended books</Link>
-                </div>
-                <div className='link'>
-                    <Link to='/all-books'>Trendings</Link>
-                </div>
-                <div className='link'>
-                    <Link to='/all-books'>Community</Link>
-                </div>
+                {user?.isAdmin &&
+                    <>
+                        <div className='link'>
+                            <Link to='/add-books'>Add Books</Link>
+                        </div>
+                        <div className='link'>
+                            <Link to='/books-req'>Issued Books Request</Link>
+                        </div>
+                    </>
+                }
             </nav>
             <div className="action_bar">
                 <div className="action_container">
