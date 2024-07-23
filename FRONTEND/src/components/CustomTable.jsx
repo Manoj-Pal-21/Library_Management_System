@@ -1,13 +1,25 @@
+import axios from 'axios';
 import React from 'react';
 
-const CustomTable = ({ data }) => {
+const CustomTable = ({ token, data }) => {
 
-    const handleAccept = (id) => {
-        console.log(`Accepted ID: ${id}`);
+    const handleAccept = async (transactionId, bookId) => {
+        console.log(`Accepted Transaction ID: ${transactionId}, Book ID: ${bookId}`);
+        await getAccept(transactionId, bookId);
     }
 
-    const handleReject = (id) => {
-        console.log(`Rejected ID: ${id}`);
+    const handleReject = async (transactionId, bookId) => {
+        console.log(`Rejected Transaction ID: ${transactionId}, Book ID: ${bookId}`);
+        // Implement reject functionality here if needed
+    }
+
+    const getAccept = async (transactionId, bookId) => {
+        try {
+            const response = await axios.put(`http://localhost:3000/api/transactions/getacceptbook/${transactionId}/${bookId}`, {}, token);
+            console.log(response);
+        } catch (error) {
+            console.log('Error accepting book:', error);
+        }
     }
 
     return (
@@ -18,7 +30,9 @@ const CustomTable = ({ data }) => {
                         <thead className="thead-dark">
                             <tr>
                                 {Object.keys(data[0]).map((item, index) => (
-                                    item !== 'id' && <th key={index}>{item}</th>
+                                    !['TransactionId', 'BookId'].includes(item) && (
+                                        <th key={index}>{item}</th>
+                                    )
                                 ))}
                                 <th>Actions</th>
                             </tr>
@@ -27,13 +41,14 @@ const CustomTable = ({ data }) => {
                             {data.map((book, rowIndex) => (
                                 <tr key={rowIndex}>
                                     {Object.keys(book).map((key, colIndex) => (
-                                        key !== 'id' &&
-                                        <td key={colIndex}>{book[key]}</td>
+                                        !['TransactionId', 'BookId'].includes(key) && (
+                                            <td key={colIndex}>{book[key]}</td>
+                                        )
                                     ))}
                                     <td>
                                         <div className="btn-group" role="group">
-                                            <button className='btn btn-success btn-sm mr-2' onClick={() => handleAccept(book.id)}>ACCEPT</button>
-                                            <button className='btn btn-danger btn-sm' onClick={() => handleReject(book.id)}>REJECT</button>
+                                            <button className='btn btn-success btn-sm mr-2' onClick={() => handleAccept(book.TransactionId, book.BookId)}>ACCEPT</button>
+                                            <button className='btn btn-danger btn-sm' onClick={() => handleReject(book.TransactionId, book.BookId)}>REJECT</button>
                                         </div>
                                     </td>
                                 </tr>

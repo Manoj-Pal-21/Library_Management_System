@@ -11,7 +11,7 @@ const BookRequest = () => {
   const requests = useSelector(selectRequests);
   const { user } = useSelector(selectUser);
   const dispatch = useDispatch();
-  const token = getToken('token');
+  const token = getToken('token')
 
   useEffect(() => {
     fetchBookRequests();
@@ -20,8 +20,7 @@ const BookRequest = () => {
   const fetchBookRequests = async () => {
     try {
       const response = await axios.get('http://localhost:3000/api/transactions/getbookrequest', token);
-      console.log(response.data)
-      const data = response.data.map(item => ({ id: item._id, Name: item.userId.name, Book: item.bookId.name }));
+      const data = response.data.map(item => ({ TransactionId: item._id, Name: item.userId.name, Book: item.bookId.name, BookId: item.bookId._id }));
       dispatch(setRequests(data));
     } catch (error) {
       console.error('Error fetching book requests:', error);
@@ -33,7 +32,7 @@ const BookRequest = () => {
   return (
     <div className="book-list-container">
       <h2>ISSUED BOOKS REQUEST</h2>
-      {requests.length > 0 && <CustomTable data={requests} />}
+      {requests.length > 0 && <CustomTable data={requests} token={token} />}
     </div>
   );
 };

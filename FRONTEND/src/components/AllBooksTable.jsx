@@ -36,6 +36,7 @@ const AllBooksTable = () => {
                         <th>Author</th>
                         <th>Status</th>
                         <th>Genre</th>
+                        <th>Quantity</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -46,6 +47,7 @@ const AllBooksTable = () => {
                             <td>{book.author}</td>
                             <td>{book.availabilityStatus ? 'Available' : 'Not Available'}</td>
                             <td>{book.genre}</td>
+                            <td>{book.quantity}</td>
                             <td>
                                 <button
                                     className={`btn ${user && user.isAdmin ? 'btn-danger' : 'btn-primary'}`}
