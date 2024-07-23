@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';;
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { setUser } from '../../redux/slice/auth';
-import Cookies from 'js-cookie';
 import axios from 'axios';
+import { setCookie } from '../../utils/Cookie';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -22,8 +22,8 @@ const Login = () => {
             });
 
             dispatch(setUser(response.data));
-            Cookies.set('token', response.data.token, { expires: 7 });
-            navigate('/home');
+            setCookie('token', response.data.token, 7)
+            navigate('/');
             toast.success(response.data.message);
         } catch (error) {
             if (error.response && error.response.data && error.response.data.message) {
@@ -39,11 +39,13 @@ const Login = () => {
         <div className="auth-wrapper">
             <div className="auth-inner p-4 shadow">
                 <form onSubmit={handleFormSubmit}>
-                    <h3>Sign In</h3>
+                    <h3 className="text-center mb-2">Welcome to Library</h3>
+                    <h4 className="text-center mb-2">Sign In</h4>
                     <div className="mb-3">
-                        <label>Username</label>
+                        <label htmlFor="username" className="form-label">Username</label>
                         <input
                             type="text"
+                            id="username"
                             className="form-control"
                             placeholder="Enter username"
                             value={username}
@@ -52,9 +54,10 @@ const Login = () => {
                         />
                     </div>
                     <div className="mb-3">
-                        <label>Password</label>
+                        <label htmlFor="password" className="form-label">Password</label>
                         <input
                             type="password"
+                            id="password"
                             className="form-control"
                             placeholder="Enter password"
                             value={password}
@@ -64,14 +67,18 @@ const Login = () => {
                     </div>
 
                     <div className="d-grid">
-                        <button type="submit" className="btn btn-primary">
+                        <button type="submit" className="btn btn-primary btn-block">
                             Submit
                         </button>
                     </div>
                 </form>
+                <div className="text-center mt-3">
+                    <p className="mb-0">Don't have an account? <Link to="/sign-up">Sign Up</Link></p>
+                </div>
                 <Toaster />
             </div>
         </div>
+
     );
 };
 

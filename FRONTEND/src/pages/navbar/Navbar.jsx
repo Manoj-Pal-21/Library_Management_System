@@ -1,7 +1,16 @@
 import React from 'react'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { deleteCookie } from '../../utils/Cookie';
 
 const Navbar = () => {
+
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        deleteCookie('token')
+        navigate('/sign-in')
+
+    }
 
     return (
         <header>
@@ -27,11 +36,7 @@ const Navbar = () => {
             </nav>
             <div className="action_bar">
                 <div className="action_container">
-                    <Link to='/sign-in' className="action_name">Login</Link>
-                </div>
-
-                <div className="action_container">
-                    <Link to='/sign-up' className="action_name">SignUp</Link>
+                    <p onClick={handleLogout} className="action_name">LOGOUT</p>
                 </div>
             </div>
         </header>

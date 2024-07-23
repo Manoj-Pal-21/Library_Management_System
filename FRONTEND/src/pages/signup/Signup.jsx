@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 
@@ -27,43 +27,44 @@ const SignUp = () => {
   };
 
   return (
-    <div className='container'>
-      <div className="auth-wrapper">
-        <div className="auth-inner p-4 shadow">
-          <form onSubmit={handleSubmit}>
-            <h3>Sign Up</h3>
-            <div className="mb-3">
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                id="username"
-                placeholder="Enter username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                required
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
-            </div>
-            <div className="d-grid">
-              <button type="submit" className="btn btn-primary">
-                Sign Up
-              </button>
-            </div>
-          </form>
-          <Toaster />
+    <div className="auth-wrapper">
+      <div className="auth-inner p-4 shadow">
+        <form onSubmit={handleSubmit}>
+          <h3 className="text-center mb-4">Sign Up</h3>
+          <div className="mb-3">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              className="form-control"
+              id="username"
+              placeholder="Enter username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="password"
+              placeholder="Enter password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="d-grid">
+            <button type="submit" className="btn btn-primary">
+              Sign Up
+            </button>
+          </div>
+        </form>
+        <div className="text-center mt-3">
+          <p className="mb-0">Already have an account? <Link to="/sign-in">Sign In</Link></p>
         </div>
+        <Toaster />
       </div>
     </div>
   );

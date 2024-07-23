@@ -1,15 +1,15 @@
 import React from 'react';
 import Navbar from '../pages/navbar/Navbar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
-function App() {
-
+const App = () => {
+    const Location = useLocation();
     return (
         <>
-            <Navbar />
+            {!['/sign-in', '/sign-up']?.includes(Location?.pathname) && <Navbar />}
             <Outlet />
         </>
     );
-}
+};
 
 export default App;
