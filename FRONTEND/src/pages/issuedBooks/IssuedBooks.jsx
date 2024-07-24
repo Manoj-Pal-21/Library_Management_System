@@ -42,7 +42,7 @@ const IssuedBooks = () => {
     }
   };
 
-  // console.log(issuedBooks,"issuedBooks")
+  console.log(issuedBooks,"issuedBooks")
   return (
 
     <div className="container mt-4">
