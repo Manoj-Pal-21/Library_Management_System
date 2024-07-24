@@ -9,6 +9,7 @@ import { setCookie } from '../../utils/Cookie';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [name, setName] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -18,7 +19,8 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:3000/api/auth/login', {
                 username,
-                password
+                password,
+                name
             });
 
             dispatch(setUser(response.data));
@@ -50,6 +52,18 @@ const Login = () => {
                             placeholder="Enter username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
+                            required
+                        />
+                    </div>
+                    <div className="mb-3">
+                        <label htmlFor="name" className="form-label">Name</label>
+                        <input
+                            type="text"
+                            id="name"
+                            className="form-control"
+                            placeholder="Enter your name"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
                             required
                         />
                     </div>
