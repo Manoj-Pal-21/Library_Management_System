@@ -5,7 +5,7 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const CustomTable = ({ token, data, fetchBookRequest }) => {
 
-    const handleAccept = async (transactionId, bookId) => {
+    const handleAccept = async (transactionId) => {
         try {
             const response = await axios.put(`http://localhost:3000/api/transactions/issueAction/${transactionId}?action=accept`, {}, token);
             console.log(response.data);
@@ -56,8 +56,16 @@ const CustomTable = ({ token, data, fetchBookRequest }) => {
                                         ))}
                                         <td>
                                             <div className="btn-group" role="group">
-                                                <button className='btn btn-success btn-sm mr-2' onClick={() => handleAccept(book.TransactionId, book.BookId)}>ACCEPT</button>
-                                                <button className='btn btn-danger btn-sm' onClick={() => handleReject(book.TransactionId, book.BookId)}>REJECT</button>
+                                                <button
+                                                    className={'btn btn-success btn-sm mr-2'}
+                                                    onClick={() => handleAccept(book.TransactionId)}>
+                                                    ACCEPT
+                                                </button>
+                                                <button
+                                                    className={'btn btn-danger btn-sm'}
+                                                    onClick={() => handleReject(book.TransactionId)}>
+                                                    REJECT
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>

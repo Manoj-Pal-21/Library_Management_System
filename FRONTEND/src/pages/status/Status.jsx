@@ -38,7 +38,7 @@ const Status = () => {
                 <td>{request.userId.name}</td>
                 <td>{request.bookId.name}</td>
                 <td>{request.contact || ''}</td> 
-                <td>{request.transactionType === 'borrowed' ? 'Borrowed' : 'Other Status'}</td> 
+                <td>{request.transactionType?.toUpperCase()}</td> 
               </tr>
             ))}
           </tbody>
