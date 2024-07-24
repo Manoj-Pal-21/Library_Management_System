@@ -10,6 +10,7 @@ import Error404 from '../components/Error404';
 import AddBookForm from '../pages/addBook/AddBooks';
 import BookeRequest from '../pages/bookRequest/BookeRequest';
 import IssuedBooks from '../pages/issuedBooks/IssuedBooks';
+import Status from '../pages/status/Status';
 
 
 const Router = createBrowserRouter([
@@ -45,6 +46,10 @@ const Router = createBrowserRouter([
                 path: '/books-req',
                 element: <PrivateRoute element={<BookeRequest />} />,
             },
+            {
+                path: '/status',
+                element: <PrivateRoute element={<Status />} />,
+            }
         ],
     },
     {
