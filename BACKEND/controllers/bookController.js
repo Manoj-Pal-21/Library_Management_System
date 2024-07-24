@@ -54,7 +54,7 @@ const deleteBook = async (req, res) => {
   const bookId = req.params.id;
 
   try {
-    const deletedBook = await Book.findByIdAndRemove(bookId);
+    const deletedBook = await Book.findOneAndDelete({ _id: bookId });
 
     if (!deletedBook) {
       return res.status(404).json({ message: 'Book not found' });
@@ -65,6 +65,7 @@ const deleteBook = async (req, res) => {
     res.status(500).json({ message: error.message }); 
   }
 };
+
 
 
 module.exports = { getAllBooks, addBook, getIssuedBooks, deleteBook };
