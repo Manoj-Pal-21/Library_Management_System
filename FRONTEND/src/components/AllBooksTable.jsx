@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { selectBooks } from '../redux/slice/book';
 import { selectUser } from '../redux/slice/auth';
+import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { getToken } from '../utils/Cookie';
 
@@ -12,18 +13,32 @@ const AllBooksTable = () => {
 
     const handleBookAction = async (book) => {
         if (user && user.isAdmin) {
-            console.log(`Deleting book: ${book.name}`);
+            deleteBook(book._id)
         } else {
             issueBook(book._id);
         }
     };
 
+    const deleteBook = async (bookId) => {
+        try {
+            const response = await axios.delete(`http://localhost:3000/api/books/${bookId}`, token);
+            console.log(response);
+            toast.success(`Book deleted successfully`);
+        } catch (error) {
+            console.error('Error deleting book:', error);
+            toast.error(`Error deleting book: ${error.message}`);
+        }
+    };
+    
+
     const issueBook = async (bookId) => {
         try {
             const response = await axios.post(`http://localhost:3000/api/transactions/issueBook/${bookId}`, {}, token);
             console.log(response);
+            toast.success(`Book issued successfully`);
         } catch (error) {
             console.log(error);
+            toast.error(`Error issuing book: ${error.message}`);
         }
     };
 
@@ -60,6 +75,7 @@ const AllBooksTable = () => {
                     ))}
                 </tbody>
             </table>
+            <Toaster/>
         </div>
     );
 };
