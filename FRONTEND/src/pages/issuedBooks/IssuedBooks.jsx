@@ -41,6 +41,8 @@ const IssuedBooks = () => {
       toast.error("Failed to fetch books.");
     }
   };
+
+  // console.log(issuedBooks,"issuedBooks")
   return (
 
     <div className="container mt-4">
@@ -89,7 +91,7 @@ const IssuedBooks = () => {
                 {pendingBookRequest.map((book, index) => (
                   <li key={index} className="list-group-item">
                     <div className="d-flex justify-content-between align-items-center">
-                      <h5>{book?.bookId?.name}</h5>
+                      <h6>BookName : {book?.bookId?.name}</h6>
                       <button
                         className="btn btn-outline-danger"
                         onClick={() => onDelete(index)}
