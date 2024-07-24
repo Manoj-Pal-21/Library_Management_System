@@ -166,7 +166,7 @@ header {
 
 /* Home.css */
 
-.container {
+.container-home {
     min-height: 80vh;
     display: flex;
     justify-content: center;
