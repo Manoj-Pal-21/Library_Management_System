@@ -1,13 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { getToken } from '../../utils/Cookie';
 
 const Status = () => {
-  const booksData = [
-    { name: 'Book 1', author: 'Author A', contact: 'Contact A', availabilityStatus: true },
-    { name: 'Book 2', author: 'Author B', contact: 'Contact B', availabilityStatus: false },
-    { name: 'Book 3', author: 'Author C', contact: 'Contact C', availabilityStatus: true },
-    { name: 'Book 4', author: 'Author D', contact: 'Contact D', availabilityStatus: true },
-    { name: 'Book 5', author: 'Author E', contact: 'Contact E', availabilityStatus: false }
-  ];
+  const [bookRequests, setBookRequests] = useState([]);
+  const token = getToken('token');
+
+  useEffect(() => {
+    const fetchBookRequests = async () => {
+      try {
+        const response = await axios.get('http://localhost:3000/api/transactions/getbookrequest', token);
+        setBookRequests(response.data);
+      } catch (error) {
+        console.error('Error fetching book requests:', error);
+      }
+    };
+
+    fetchBookRequests();
+  }, []);
 
   return (
     <div className="container mt-4">
@@ -23,12 +33,12 @@ const Status = () => {
             </tr>
           </thead>
           <tbody>
-            {booksData.map((book, index) => (
+            {bookRequests.map((request, index) => (
               <tr key={index}>
-                <td>{book.name}</td>
-                <td>{book.author}</td>
-                <td>{book.contact}</td>
-                <td>{book.availabilityStatus ? 'Available' : 'Not Available'}</td>
+                <td>{request.userId.name}</td>
+                <td>{request.bookId.name}</td>
+                <td>{request.contact || ''}</td> 
+                <td>{request.transactionType === 'borrowed' ? 'Borrowed' : 'Other Status'}</td> 
               </tr>
             ))}
           </tbody>

@@ -49,7 +49,7 @@ const AllBooksTable = ({ getBookList }) => {
             <table className="table table-striped">
                 <thead className="thead-dark">
                     <tr>
-                        <th>Name</th>
+                        <th>BookName</th>
                         <th>Author</th>
                         <th>Status</th>
                         <th>Genre</th>

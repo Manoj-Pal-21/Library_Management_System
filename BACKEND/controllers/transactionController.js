@@ -68,7 +68,7 @@ const updateIssueRequest = async (req, res) => {
       transactionType: actionType === "accept" ? "borrowed" : "rejected",
       issueDate: new Date(),
       dueDate: dueDate
-    }, { new: true });
+    }, { new: true })
 
     if (!transaction) {
       return res.status(404).json({ error: 'Transaction not found' });
