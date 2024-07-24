@@ -1,6 +1,5 @@
 const Transaction = require('../models/transaction');
 const Book = require('../models/book');
-const { default: mongoose } = require('mongoose');
 
 
 const addTransaction = async (req, res) => {
@@ -9,6 +8,10 @@ const addTransaction = async (req, res) => {
 
   try {
     const book = await Book.findById(bookId);
+    const isTransactionExist = await Transaction.findOne({ bookId, userId });
+    if (isTransactionExist?.transactionType === "borrowed") {
+      return res.status(405).json({ message: 'This book is already pending or issued' })
+    }
     if (!book) {
       return res.status(404).json({ error: 'Book not found' });
     }
@@ -24,26 +27,8 @@ const addTransaction = async (req, res) => {
       transactionType: 'borrowed',
     });
 
-    const session = await mongoose.startSession();
-    session.startTransaction();
-
-    try {
-      const transaction = await newTransaction.save({ session });
-      book.quantity--;
-
-      if (book.quantity === 0) {
-        book.availabilityStatus = false;
-      }
-
-      await book.save({ session });
-      await session.commitTransaction();
-      res.status(200).json(transaction);
-    } catch (err) {
-      await session.abortTransaction();
-      throw err;
-    } finally {
-      session.endSession();
-    }
+    const transaction = await newTransaction.save();
+    res.status(200).json(transaction);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -68,8 +53,9 @@ const getBookRequest = async (req, res) => {
   }
 };
 
-const getAcceptBook = async (req, res) => {
+const updateIssueRequest = async (req, res) => {
   const { transactionId } = req.params;
+  const actionType = req.query.action
 
   try {
     const currentDate = new Date();
@@ -78,7 +64,8 @@ const getAcceptBook = async (req, res) => {
     dueDate.setMonth(dueDate.getMonth() + 1);
 
     const transaction = await Transaction.findByIdAndUpdate(transactionId, {
-      issueStatus: true,
+      issueStatus: actionType === "accept",
+      transactionType: actionType === "accept" ? "borrowed" : "rejected",
       issueDate: new Date(),
       dueDate: dueDate
     }, { new: true });
@@ -87,6 +74,9 @@ const getAcceptBook = async (req, res) => {
       return res.status(404).json({ error: 'Transaction not found' });
     }
 
+    if (actionType === "accept")
+      await Book.findByIdAndUpdate(transaction?.bookId, { $inc: { quantity: -1 } })
+
     res.status(200).json(transaction);
   } catch (error) {
     console.error('Error accepting book:', error);
@@ -94,25 +84,4 @@ const getAcceptBook = async (req, res) => {
   }
 };
 
-const rejectBookRequest = async (req, res) => {
-  const { transactionId } = req.params;
-
-  try {
-    const transaction = await Transaction.findByIdAndUpdate(transactionId, {
-      issueStatus: false,
-    }, { new: true });
-
-    if (!transaction) {
-      return res.status(404).json({ error: 'Transaction not found' });
-    }
-
-    res.status(200).json(transaction);
-  } catch (error) {
-    console.error('Error rejecting book request:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
-
-
-
-module.exports = { getAcceptBook, addTransaction, rejectBookRequest, getBookRequest };
+module.exports = { updateIssueRequest, addTransaction, getBookRequest };

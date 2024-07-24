@@ -6,7 +6,7 @@ const transactionSchema = new mongoose.Schema({
   issueStatus: { type: Boolean },
   issueDate: { type: Date },
   dueDate: { type: Date },
-  transactionType: { type: String, enum: ['borrowed', 'returned'], required: true },
+  transactionType: { type: String, enum: ['borrowed', 'returned','rejected'], required: true },
 }, {
   timestamps: true
 });

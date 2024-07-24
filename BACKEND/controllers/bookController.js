@@ -37,6 +37,7 @@ const getAllBooks = async (req, res) => {
 };
 
 const getIssuedBooks = async (req, res) => {
+  console.log(req)
   try {
     const response = await Transaction.find({
       userId: req.user.userId

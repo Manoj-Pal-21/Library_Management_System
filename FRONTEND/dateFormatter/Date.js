@@ -7,7 +7,3 @@ export const formatDate = (inputDate) => {
 
     return `${day}-${month}-${year}`;
 }
-
-const inputDateString = '2024-07-24T15:28:42.944Z';
-const formattedDate = formatDate(inputDateString);
-console.log(formattedDate); 
