@@ -36,7 +36,7 @@ const getAllBooks = async (req, res) => {
   }
 };
 
-const getIssuedBooks = async(req, res) => {
+const getIssuedBooks = async (req, res) => {
   try {
     const response = await Transaction.find({
       userId: req.user.userId
@@ -47,8 +47,8 @@ const getIssuedBooks = async(req, res) => {
     res.status(200).json(response)
   } catch (error) {
     console.log(error)
-  }
-  }
+  }
+}
 
 const deleteBook = async (req, res) => {
   const bookId = req.params.id;
@@ -62,10 +62,9 @@ const deleteBook = async (req, res) => {
 
     res.status(200).json({ message: 'Book deleted successfully' });
   } catch (error) {
-    res.status(500).json({ message: error.message }); 
+    res.status(500).json({ message: error.message });
   }
 };
-
 
 
 module.exports = { getAllBooks, addBook, getIssuedBooks, deleteBook };

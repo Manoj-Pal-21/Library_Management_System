@@ -23,7 +23,7 @@ const AllBooks = () => {
     return (
         <div className="book-list-container">
             <h2>Book List</h2>
-            <AllBooksTable />
+            <AllBooksTable getBookList={getBookList}/>
         </div>
     )
 }

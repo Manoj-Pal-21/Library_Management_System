@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { getToken } from '../utils/Cookie';
 
-const AllBooksTable = () => {
+const AllBooksTable = ({getBookList}) => {
     const { books } = useSelector(selectBooks);
     const { user } = useSelector(selectUser);
     const token = getToken('token');
@@ -23,6 +23,7 @@ const AllBooksTable = () => {
         try {
             const response = await axios.delete(`http://localhost:3000/api/books/${bookId}`, token);
             console.log(response);
+            getBookList()
             toast.success(`Book deleted successfully`);
         } catch (error) {
             console.error('Error deleting book:', error);
