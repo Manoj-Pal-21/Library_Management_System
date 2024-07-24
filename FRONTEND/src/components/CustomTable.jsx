@@ -9,6 +9,7 @@ const CustomTable = ({ token, data, fetchBookRequest }) => {
         try {
             const response = await axios.put(`http://localhost:3000/api/transactions/getacceptbook/${transactionId}/${bookId}`, {}, token);
             console.log(response.data);
+            fetchBookRequest()
             toast.success('Book accepted successfully');
         } catch (error) {
             console.log('Error accepting book:', error);
