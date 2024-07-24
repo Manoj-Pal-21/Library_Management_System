@@ -6,7 +6,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
 import { getToken } from '../utils/Cookie';
 
-const AllBooksTable = ({getBookList}) => {
+const AllBooksTable = ({ getBookList }) => {
     const { books } = useSelector(selectBooks);
     const { user } = useSelector(selectUser);
     const token = getToken('token');
@@ -30,12 +30,13 @@ const AllBooksTable = ({getBookList}) => {
             toast.error(`Error deleting book: ${error.message}`);
         }
     };
-    
+
 
     const issueBook = async (bookId) => {
         try {
             const response = await axios.post(`http://localhost:3000/api/transactions/issueBook/${bookId}`, {}, token);
             console.log(response);
+            getBookList()
             toast.success(`Book issued successfully`);
         } catch (error) {
             console.log(error);
@@ -58,25 +59,28 @@ const AllBooksTable = ({getBookList}) => {
                 </thead>
                 <tbody>
                     {books?.map((book, index) => (
-                        <tr key={index}>
-                            <td>{book.name}</td>
-                            <td>{book.author}</td>
-                            <td>{book.availabilityStatus ? 'Available' : 'Not Available'}</td>
-                            <td>{book.genre}</td>
-                            <td>{book.quantity}</td>
-                            <td>
-                                <button
-                                    className={`btn ${user && user.isAdmin ? 'btn-danger' : 'btn-primary'}`}
-                                    onClick={() => handleBookAction(book)}
-                                >
-                                    {user && user.isAdmin ? 'Delete Book' : 'Issue Book'}
-                                </button>
-                            </td>
-                        </tr>
+                        book.quantity > 0 && (
+                            <tr key={index}>
+                                <td>{book.name}</td>
+                                <td>{book.author}</td>
+                                <td>{book.availabilityStatus ? 'Available' : 'Not Available'}</td>
+                                <td>{book.genre}</td>
+                                <td>{book.quantity}</td>
+                                <td>
+                                    <button
+                                        className={`btn ${user && user.isAdmin ? 'btn-danger' : 'btn-primary'}`}
+                                        onClick={() => handleBookAction(book)}
+                                    >
+                                        {user && user.isAdmin ? 'Delete Book' : 'Issue Book'}
+                                    </button>
+                                </td>
+                            </tr>
+                        )
                     ))}
                 </tbody>
+
             </table>
-            <Toaster/>
+            <Toaster />
         </div>
     );
 };

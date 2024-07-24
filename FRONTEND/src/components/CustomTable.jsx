@@ -3,7 +3,7 @@ import React from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 
 
-const CustomTable = ({ token, data }) => {
+const CustomTable = ({ token, data, fetchBookRequest }) => {
 
     const handleAccept = async (transactionId, bookId) => {
         try {
@@ -20,6 +20,7 @@ const CustomTable = ({ token, data }) => {
         try {
             const response = await axios.put(`http://localhost:3000/api/transactions/rejectbookrequest/${transactionId}`, {}, token);
             console.log(response.data);
+            fetchBookRequest()
             toast.success('Book request rejected successfully');
         } catch (error) {
             console.log('Error rejecting book request:', error);

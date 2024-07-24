@@ -40,7 +40,7 @@ const SignUp = () => {
       console.log(response)
 
       if (response.status === 200) {
-        // navigate('/sign-in');
+        navigate('/sign-in');
         toast.success('Signed up successfully! Please sign in.');
       }
     } catch (error) {

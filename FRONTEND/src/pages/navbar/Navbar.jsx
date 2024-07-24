@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { deleteCookie } from '../../utils/Cookie';
 import { useSelector } from 'react-redux';
@@ -9,9 +9,9 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        deleteCookie('token')
-        navigate('/sign-in')
-    }
+        deleteCookie('token');
+        navigate('/sign-in');
+    };
 
     return (
         <header>
@@ -22,10 +22,12 @@ const Navbar = () => {
                 <div className='link'>
                     <Link to='/all-books'>All books</Link>
                 </div>
-                <div className='link'>
-                    <Link to='/issued-books'>Issued books</Link>
-                </div>
-                {user?.isAdmin &&
+                {!user?.isAdmin && (
+                    <div className='link'>
+                        <Link to='/issued-books'>Issued books</Link>
+                    </div>
+                )}
+                {user?.isAdmin && (
                     <>
                         <div className='link'>
                             <Link to='/add-books'>Add Books</Link>
@@ -34,7 +36,7 @@ const Navbar = () => {
                             <Link to='/books-req'>Issued Books Request</Link>
                         </div>
                     </>
-                }
+                )}
             </nav>
             <div className="action_bar">
                 <div className="action_container">
@@ -42,7 +44,7 @@ const Navbar = () => {
                 </div>
             </div>
         </header>
-    )
-}
+    );
+};
 
 export default Navbar;

@@ -1,19 +1,67 @@
 const Transaction = require('../models/transaction');
+const Book = require('../models/book');
+const { default: mongoose } = require('mongoose');
+
+// const addTransaction = async (req, res) => {
+
+//   const { userId } = req.user;
+//   const { bookId } = req.params;
+
+//   const newTransaction = new Transaction({
+//     userId: userId,
+//     bookId: bookId,
+//     issueStatus: false,
+//     transactionType: 'borrowed',
+//   });
+//   try {
+//     const transaction = await newTransaction.save();
+//     res.status(200).json(transaction);
+//   } catch (err) {
+//     res.status(400).json({ message: err.message });
+//   }
+// };
 
 const addTransaction = async (req, res) => {
-
   const { userId } = req.user;
   const { bookId } = req.params;
 
-  const newTransaction = new Transaction({
-    userId: userId,
-    bookId: bookId,
-    issueStatus: false,
-    transactionType: 'borrowed',
-  });
   try {
-    const transaction = await newTransaction.save();
-    res.status(200).json(transaction);
+    const book = await Book.findById(bookId);
+    if (!book) {
+      return res.status(404).json({ error: 'Book not found' });
+    }
+
+    if (book.quantity <= 0) {
+      return res.status(400).json({ error: 'Book out of stock' });
+    }
+
+    const newTransaction = new Transaction({
+      userId: userId,
+      bookId: bookId,
+      issueStatus: false,
+      transactionType: 'borrowed',
+    });
+
+    const session = await mongoose.startSession();
+    session.startTransaction();
+    
+    try {
+      const transaction = await newTransaction.save({ session });
+      book.quantity--;
+      
+      if (book.quantity === 0) {
+        book.availabilityStatus = false;
+      }
+
+      await book.save({ session });
+      await session.commitTransaction();
+      res.status(200).json(transaction);
+    } catch (err) {
+      await session.abortTransaction();
+      throw err;
+    } finally {
+      session.endSession();
+    }
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

@@ -20,11 +20,21 @@ const AddBookForm = () => {
     genre: '',
   });
 
-
-
+  
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.id]: e.target.value });
+    const { id, value } = e.target;
+    if (id === 'quantity') {
+      const quantityValue = parseInt(value, 10);
+
+      if (!isNaN(quantityValue) && quantityValue >= 0) {
+        setFormData({ ...formData, [id]: quantityValue });
+      }
+
+      return;
+    }
+    setFormData({ ...formData, [id]: value });
   };
+
 
 
   const handleSubmit = async (e) => {
