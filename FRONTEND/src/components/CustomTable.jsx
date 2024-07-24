@@ -4,23 +4,23 @@ import React from 'react';
 const CustomTable = ({ token, data }) => {
 
     const handleAccept = async (transactionId, bookId) => {
-        console.log(`Accepted Transaction ID: ${transactionId}, Book ID: ${bookId}`);
-        await getAccept(transactionId, bookId);
-    }
-
-    const handleReject = async (transactionId, bookId) => {
-        console.log(`Rejected Transaction ID: ${transactionId}, Book ID: ${bookId}`);
-        // Implement reject functionality here if needed
-    }
-
-    const getAccept = async (transactionId, bookId) => {
         try {
             const response = await axios.put(`http://localhost:3000/api/transactions/getacceptbook/${transactionId}/${bookId}`, {}, token);
-            console.log(response);
+            console.log(response.data);
         } catch (error) {
             console.log('Error accepting book:', error);
         }
-    }
+    };
+
+    const handleReject = async (transactionId) => {
+        try {
+            const response = await axios.put(`http://localhost:3000/api/transactions/rejectbookrequest/${transactionId}`, {}, token);
+            console.log(response.data);
+        } catch (error) {
+            console.log('Error rejecting book request:', error);
+        }
+    };
+
 
     return (
         <div className="container-fluid p-2">

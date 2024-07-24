@@ -39,22 +39,44 @@ const getBookRequest = async (req, res) => {
 };
 
 const getAcceptBook = async (req, res) => {
-  const { bookId, transactionId } = req.params;
+  const { transactionId, bookId } = req.params;
 
   try {
-    const response = await Transaction.find({
-      // issueStatus: false,
-      // bookId: bookId,
-      // transactionId: transactionId
-    })
+    const transaction = await Transaction.findByIdAndUpdate(transactionId, {
+      issueStatus: true,
+      issueDate: new Date(),
+    }, { new: true });
 
-    console.log(response, "response")
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    res.status(200).json(transaction);
   } catch (error) {
-
+    console.error('Error accepting book:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
   }
-}
+};
+
+const rejectBookRequest = async (req, res) => {
+  const { transactionId } = req.params;
+
+  try {
+    const transaction = await Transaction.findByIdAndUpdate(transactionId, {
+      issueStatus: false,
+    }, { new: true });
+
+    if (!transaction) {
+      return res.status(404).json({ error: 'Transaction not found' });
+    }
+
+    res.status(200).json(transaction);
+  } catch (error) {
+    console.error('Error rejecting book request:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 
 
-
-module.exports = { getAcceptBook, addTransaction, getBookRequest };
+module.exports = { getAcceptBook, addTransaction, rejectBookRequest, getBookRequest };
