@@ -2,24 +2,6 @@ const Transaction = require('../models/transaction');
 const Book = require('../models/book');
 const { default: mongoose } = require('mongoose');
 
-// const addTransaction = async (req, res) => {
-
-//   const { userId } = req.user;
-//   const { bookId } = req.params;
-
-//   const newTransaction = new Transaction({
-//     userId: userId,
-//     bookId: bookId,
-//     issueStatus: false,
-//     transactionType: 'borrowed',
-//   });
-//   try {
-//     const transaction = await newTransaction.save();
-//     res.status(200).json(transaction);
-//   } catch (err) {
-//     res.status(400).json({ message: err.message });
-//   }
-// };
 
 const addTransaction = async (req, res) => {
   const { userId } = req.user;
@@ -44,11 +26,11 @@ const addTransaction = async (req, res) => {
 
     const session = await mongoose.startSession();
     session.startTransaction();
-    
+
     try {
       const transaction = await newTransaction.save({ session });
       book.quantity--;
-      
+
       if (book.quantity === 0) {
         book.availabilityStatus = false;
       }
@@ -90,9 +72,15 @@ const getAcceptBook = async (req, res) => {
   const { transactionId } = req.params;
 
   try {
+    const currentDate = new Date();
+    const dueDate = new Date(currentDate);
+
+    dueDate.setMonth(dueDate.getMonth() + 1);
+
     const transaction = await Transaction.findByIdAndUpdate(transactionId, {
       issueStatus: true,
       issueDate: new Date(),
+      dueDate: dueDate
     }, { new: true });
 
     if (!transaction) {

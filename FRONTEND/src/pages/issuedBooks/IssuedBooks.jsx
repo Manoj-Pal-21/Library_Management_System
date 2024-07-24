@@ -129,6 +129,8 @@ const IssuedBooks = () => {
                     <tr key={index}>
                       <td>{book?.bookId?.name}</td>
                       <td>{formatDate(book?.issueDate)}</td>
+                      <td>{formatDate(book?.dueDate)}</td>
+                      <td>{book?.issueStatus ? 'BARROW' : 'RETURNED'}</td>
                     </tr>
                   ))}
                 </tbody>
