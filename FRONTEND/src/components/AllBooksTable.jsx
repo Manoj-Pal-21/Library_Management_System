@@ -40,7 +40,7 @@ const AllBooksTable = ({ getBookList }) => {
             toast.success(`Book issued successfully`);
         } catch (error) {
             console.log(error);
-            toast.error(`Error issuing book: ${error.message}`);
+            toast.error(`Error issuing book: ${error.response.data.message}`);
         }
     };
 

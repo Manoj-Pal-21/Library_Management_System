@@ -43,6 +43,18 @@ const IssuedBooks = () => {
     }
   };
 
+  const handleDelete = async (transactionId) => {
+    try {
+      const response = await axios.delete(`http://localhost:3000/api/transactions/deletetransaction/${transactionId}`, token);
+      console.log(response);
+      toast.success('Transaction deleted successfully');
+      getIssuedBookList()
+    } catch (error) {
+      console.error(error);
+      toast.error(`Error deleting transaction: ${error.response.data.message}`);
+    }
+  }
+
   return (
 
     <div className="container mt-4">
@@ -94,7 +106,7 @@ const IssuedBooks = () => {
                       <h6>BookName : {book?.bookId?.name}</h6>
                       <button
                         className="btn btn-outline-danger"
-                        onClick={() => onDelete(index)}
+                        onClick={() => handleDelete(book._id)}
                       >
                         Delete
                       </button>
@@ -130,7 +142,7 @@ const IssuedBooks = () => {
                       <td>{book?.bookId?.name}</td>
                       <td>{formatDate(book?.issueDate)}</td>
                       <td>{formatDate(book?.dueDate)}</td>
-                      <td>{book?.issueStatus ? 'BARROW' : 'RETURNED'}</td>
+                      <td>{book?.issueStatus ? 'BARROWED' : 'RETURNED'}</td>
                     </tr>
                   ))}
                 </tbody>
