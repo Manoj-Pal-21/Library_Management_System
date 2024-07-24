@@ -22,7 +22,7 @@ const addBook = async (req, res) => {
     res.status(201).json(newBook);
   } catch (err) {
     console.log(err)
-    res.status(400).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -36,7 +36,7 @@ const getAllBooks = async (req, res) => {
   }
 };
 
-const getIssuedBooks = async (req, res) => {
+const getIssuedBooks = async(req, res) => {
   try {
     const response = await Transaction.find({
       userId: req.user.userId
@@ -47,8 +47,8 @@ const getIssuedBooks = async (req, res) => {
     res.status(200).json(response)
   } catch (error) {
     console.log(error)
-  }
-}
+  }
+  }
 
 const deleteBook = async (req, res) => {
   const bookId = req.params.id;

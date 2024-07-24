@@ -6,8 +6,10 @@ import toast, { Toaster } from 'react-hot-toast';
 const IssuedBooks = () => {
   const [selectedTab, setSelectedTab] = useState("pending");
 
+
   const [issuedBooks, setIssuedBooks] = useState([]);
   const [pendingBookRequest, setPendingBookRequest] = useState([]);
+
   const token = getToken("token");
 
   const handleTabClick = (tabName) => {
@@ -23,28 +25,24 @@ const IssuedBooks = () => {
       const response = await axios.get(
         "http://localhost:3000/api/books/getIssuedBooks", token);
 
-      const data = response.data;
+      const data = response.data
       const issued = data.filter(
-        (book) => book.issueStatus === true && book.transactionType === "borrowed"
+        (book) =>
+          book.issueStatus === true && book.transactionType === "borrowed"
       );
       const pending = data.filter(
-        (book) => book.issueStatus === false && book.transactionType === "borrowed"
+        (book) =>
+          book.issueStatus === false && book.transactionType === "borrowed"
       );
 
       setIssuedBooks(issued);
       setPendingBookRequest(pending);
-
       toast.success("Books fetched successfully!");
     } catch (error) {
-      console.error("Error fetching books:", error);
+      console.log(error);
       toast.error("Failed to fetch books.");
     }
   };
-
-  const onDelete = (index) => {
-    console.log("Delete button clicked for index", index);
-  };
-
   return (
     <div className="container mt-4">
       <ul className="nav nav-tabs" id="myTab" role="tablist">
@@ -53,6 +51,11 @@ const IssuedBooks = () => {
             className={`nav-link ${selectedTab === "pending" ? "active" : ""}`}
             id="pending-tab"
             onClick={() => handleTabClick("pending")}
+            data-toggle="tab"
+            href="#pending"
+            role="tab"
+            aria-controls="pending"
+            aria-selected={selectedTab === "pending" ? "true" : "false"}
           >
             Pending
           </a>
@@ -62,11 +65,17 @@ const IssuedBooks = () => {
             className={`nav-link ${selectedTab === "issued" ? "active" : ""}`}
             id="issued-tab"
             onClick={() => handleTabClick("issued")}
+            data-toggle="tab"
+            href="#issued"
+            role="tab"
+            aria-controls="issued"
+            aria-selected={selectedTab === "issued" ? "true" : "false"}
           >
             Issued
           </a>
         </li>
       </ul>
+
       <div className="tab-content mt-2" id="myTabContent">
         <div
           className={`tab-pane fade ${selectedTab === "pending" ? "show active" : ""}`}
@@ -75,13 +84,13 @@ const IssuedBooks = () => {
           aria-labelledby="pending-tab"
         >
           <div className="container">
-            <h4>Pending Books</h4>
             <div className="pending-requests">
+              <h4 className="mt-3">Pending Books</h4>
               <ul className="list-group">
                 {pendingBookRequest.map((book, index) => (
                   <li key={index} className="list-group-item">
                     <div className="d-flex justify-content-between align-items-center">
-                      <h4>{book?.bookId?.name}</h4>
+                      <h5>{book?.bookId?.name}</h5>
                       <button
                         className="btn btn-outline-danger"
                         onClick={() => onDelete(index)}
@@ -95,6 +104,7 @@ const IssuedBooks = () => {
             </div>
           </div>
         </div>
+
         <div
           className={`tab-pane fade ${selectedTab === "issued" ? "show active" : ""}`}
           id="issued"
@@ -102,22 +112,21 @@ const IssuedBooks = () => {
           aria-labelledby="issued-tab"
         >
           <div className="container">
-            <h4>Issued Books</h4>
             <div className="table-responsive">
+              <h4 className="mt-3">Issued Books</h4>
               <table className="table table-striped">
                 <thead className="thead-dark">
                   <tr>
-                    <th>BookName</th>
-                    <th>IssueDate</th>
-                    <th>DueDate</th>
+                    <th>Book Name</th>
+                    <th>Issue Date</th>
+                    <th>Due Date</th>
                     <th>Details</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {issuedBooks.map((book, index) => (
+                  {issuedBooks?.map((book, index) => (
                     <tr key={index}>
                       <td>{book?.bookId?.name}</td>
-                      {/* Render more columns as needed */}
                     </tr>
                   ))}
                 </tbody>
@@ -126,12 +135,11 @@ const IssuedBooks = () => {
           </div>
         </div>
       </div>
+
       <Toaster />
     </div>
   );
 };
 
 export default IssuedBooks;
-
-
 

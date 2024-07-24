@@ -39,7 +39,7 @@ const getBookRequest = async (req, res) => {
 };
 
 const getAcceptBook = async (req, res) => {
-  const { transactionId, bookId } = req.params;
+  const { transactionId } = req.params;
 
   try {
     const transaction = await Transaction.findByIdAndUpdate(transactionId, {
