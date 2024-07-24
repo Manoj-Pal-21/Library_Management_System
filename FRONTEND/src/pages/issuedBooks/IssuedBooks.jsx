@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { getToken } from "../../utils/Cookie";
 import toast, { Toaster } from 'react-hot-toast';
+import { formatDate } from "../../../dateFormatter/Date";
 
 const IssuedBooks = () => {
   const [selectedTab, setSelectedTab] = useState("pending");
@@ -127,6 +128,7 @@ const IssuedBooks = () => {
                   {issuedBooks?.map((book, index) => (
                     <tr key={index}>
                       <td>{book?.bookId?.name}</td>
+                      <td>{formatDate(book?.issueDate)}</td>
                     </tr>
                   ))}
                 </tbody>
