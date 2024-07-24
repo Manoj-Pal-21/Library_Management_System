@@ -21,7 +21,7 @@ const AllBooks = () => {
     };
 
     return (
-        <div className="book-list-container">
+        <div className="container mt-4">
             <h2>Book List</h2>
             <AllBooksTable getBookList={getBookList}/>
         </div>

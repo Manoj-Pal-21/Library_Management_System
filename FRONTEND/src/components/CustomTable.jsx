@@ -32,7 +32,7 @@ const CustomTable = ({ token, data, fetchBookRequest }) => {
 
     return (
         <>
-            <div className="container-fluid p-2">
+            <div className="container mt-4">
                 <div className="table-container">
                     <div className="table-responsive">
                         <table className="table table-striped">
