@@ -9,6 +9,7 @@ const Navbar = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
+        console.log(deleteCookie('token'));
         deleteCookie('token');
         navigate('/sign-in');
     };
