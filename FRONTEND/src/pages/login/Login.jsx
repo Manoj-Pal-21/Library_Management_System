@@ -9,7 +9,7 @@ import { setCookie } from '../../utils/Cookie';
 const Login = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    // const [name, setName] = useState('');
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ const Login = () => {
             const response = await axios.post(`/api/auth/login`, {
                 username,
                 password,
-                name
+                // name
             });
 
             dispatch(setUser(response.data));
@@ -56,7 +56,7 @@ const Login = () => {
                             required
                         />
                     </div>
-                    <div className="mb-3">
+                    {/* <div className="mb-3">
                         <label htmlFor="name" className="form-label">Name</label>
                         <input
                             type="text"
@@ -67,7 +67,7 @@ const Login = () => {
                             onChange={(e) => setName(e.target.value)}
                             required
                         />
-                    </div>
+                    </div> */}
                     <div className="mb-3">
                         <label htmlFor="password" className="form-label">Password</label>
                         <input

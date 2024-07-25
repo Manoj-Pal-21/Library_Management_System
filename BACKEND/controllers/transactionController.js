@@ -4,7 +4,7 @@ const Book = require('../models/book');
 
 const addTransaction = async (req, res) => {
   const { userId } = req.user;
-  const { bookId } = req.params;
+  const { bookId } = req.body;
 
   try {
     const book = await Book.findById(bookId);

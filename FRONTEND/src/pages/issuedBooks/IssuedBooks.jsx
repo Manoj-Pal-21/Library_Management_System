@@ -24,7 +24,7 @@ const IssuedBooks = () => {
       const response = await axios.get(
         `/api/books/getIssuedBooks`, token);
 
-      const data = response.data
+      const data = response.data || [];
       const issued = data.filter(
         (book) =>
           book.issueStatus === true && book.transactionType === "borrowed"

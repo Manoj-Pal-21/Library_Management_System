@@ -4,7 +4,7 @@ const { updateIssueRequest, addTransaction, getBookRequest, deleteTransation, is
 
 const { auth } = require('../middlewares/auth')
 
-router.post('/issueBook/:bookId', auth, addTransaction);
+router.post('/issueBook', auth, addTransaction);
 router.get('/getbookrequest', auth, getBookRequest);
 router.put('/issueAction/:transactionId', auth, updateIssueRequest);
 router.get('/issueDeatils', auth, issueDetails);

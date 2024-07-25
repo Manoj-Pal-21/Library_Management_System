@@ -34,7 +34,7 @@ const AllBooksTable = ({ getBookList }) => {
 
     const issueBook = async (bookId) => {
         try {
-            const response = await axios.post(`/api/transactions/issueBook/${bookId}`, {}, token);
+            const response = await axios.post(`/api/transactions/issueBook`, { bookId }, token);
             console.log(response);
             getBookList()
             toast.success(`Book issued successfully`);
