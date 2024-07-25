@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import toast, { Toaster } from 'react-hot-toast';
 import { addBook } from '../../redux/slice/book';
-import { getToken } from '../../utils/Cookie';
+import { baseUrl, getToken } from '../../utils/Cookie';
 import { selectUser } from '../../redux/slice/auth';
 import UnAuthorized from '../../components/UnAuthorized';
 
@@ -41,7 +41,7 @@ const AddBookForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/books/add`, formData, token);
+      const response = await axios.post(`${baseUrl}/books/add`, formData, token);
       dispatch(addBook(response.data));
       toast.success('Book added successfully!');
       setFormData({

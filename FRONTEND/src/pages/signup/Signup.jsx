@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import axios from 'axios';
+import { baseUrl } from '../../utils/Cookie';
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -32,7 +33,7 @@ const SignUp = () => {
     const lowerCaseUsername = username.toLowerCase();
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/signup`, {
+      const response = await axios.post(`${baseUrl}/auth/signup`, {
         ...formData,
         username: lowerCaseUsername
       });

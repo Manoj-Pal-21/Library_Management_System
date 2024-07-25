@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { setBooks } from '../../redux/slice/book';
 import AllBooksTable from '../../components/AllBooksTable';
+import { baseUrl } from '../../utils/Cookie';
 
 const AllBooks = () => {
     const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const AllBooks = () => {
 
     const getBookList = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/books`);
+            const response = await axios.get(`${baseUrl}/books`);
             dispatch(setBooks(response.data));
         } catch (error) {
             console.log('Error fetching books:', error);

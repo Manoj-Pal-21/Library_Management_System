@@ -15,3 +15,5 @@ export const deleteCookie = (name) => {
 export const getToken = (name) => {
   return { headers: { 'Authorization': Cookies.get(name) } }
 }
+
+export const baseUrl = import.meta.env.VITE_BASE_URL ? `${import.meta.env.VITE_BASE_URL}/api` : "/api";

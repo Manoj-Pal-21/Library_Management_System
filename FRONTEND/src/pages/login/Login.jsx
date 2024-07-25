@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
 import { setUser } from '../../redux/slice/auth';
 import axios from 'axios';
-import { setCookie } from '../../utils/Cookie';
+import { baseUrl, setCookie } from '../../utils/Cookie';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -17,7 +17,7 @@ const Login = () => {
         event.preventDefault();
 
         try {
-            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, {
+            const response = await axios.post(`${baseUrl}/auth/login`, {
                 username,
                 password,
                 // name

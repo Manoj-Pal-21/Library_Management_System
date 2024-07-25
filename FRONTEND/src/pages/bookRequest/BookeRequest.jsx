@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import CustomTable from '../../components/CustomTable';
 import { selectRequests, setRequests } from '../../redux/slice/transaction';
-import { getToken } from '../../utils/Cookie';
+import { baseUrl, getToken } from '../../utils/Cookie';
 import axios from 'axios';
 import UnAuthorized from '../../components/UnAuthorized';
 import { selectUser } from '../../redux/slice/auth';
@@ -21,7 +21,7 @@ const BookRequest = () => {
 
   const fetchBookRequests = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/transactions/getbookrequest`, token);
+      const response = await axios.get(`${baseUrl}/transactions/getbookrequest`, token);
       const data = response.data.map(item => ({ TransactionId: item._id, Name: item.userId.name, Book: item.bookId.name, BookId: item.bookId._id }));
       dispatch(setRequests(data));
     } catch (error) {
