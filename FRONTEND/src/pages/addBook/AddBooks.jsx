@@ -41,7 +41,7 @@ const AddBookForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/books/add`, formData, token);
+      const response = await axios.post(`/api/books/add`, formData, token);
       dispatch(addBook(response.data));
       toast.success('Book added successfully!');
       setFormData({

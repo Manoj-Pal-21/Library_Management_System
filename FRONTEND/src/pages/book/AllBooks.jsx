@@ -13,7 +13,7 @@ const AllBooks = () => {
 
     const getBookList = async () => {
         try {
-            const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/books`);
+            const response = await axios.get(`/api/books`);
             dispatch(setBooks(response.data));
         } catch (error) {
             console.log('Error fetching books:', error);

@@ -21,7 +21,7 @@ const BookRequest = () => {
 
   const fetchBookRequests = async () => {
     try {
-      const response = await axios.get(`${import.meta.env.VITE_BASE_URL}/api/transactions/getbookrequest`, token);
+      const response = await axios.get(`/api/transactions/getbookrequest`, token);
       const data = response.data.map(item => ({ TransactionId: item._id, Name: item.userId.name, Book: item.bookId.name, BookId: item.bookId._id }));
       dispatch(setRequests(data));
     } catch (error) {
