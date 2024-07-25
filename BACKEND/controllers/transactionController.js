@@ -65,7 +65,7 @@ const updateIssueRequest = async (req, res) => {
 
     const transaction = await Transaction.findByIdAndUpdate(transactionId, {
       issueStatus: actionType === "accept",
-      transactionType: actionType === "accept" ? "borrowed" : "rejected",
+      transactionType: actionType === "accept" ? "borrowed" : actionType === "return" ? "returned" : "rejected",
       issueDate: new Date(),
       dueDate: dueDate
     }, { new: true })
@@ -77,6 +77,9 @@ const updateIssueRequest = async (req, res) => {
     if (actionType === "accept")
       await Book.findByIdAndUpdate(transaction?.bookId, { $inc: { quantity: -1 } })
 
+    if (actionType === "return")
+      await Book.findByIdAndUpdate(transaction?.bookId, { $inc: { quantity: 1 } })
+
     res.status(200).json(transaction);
   } catch (error) {
     console.error('Error accepting book:', error);
@@ -87,7 +90,7 @@ const updateIssueRequest = async (req, res) => {
 const issueDetails = async (req, res) => {
   try {
     const response = await Transaction.find({
-      transactionType: "borrowed" || "returned",
+      transactionType: { $in: ["borrowed", "returned"] },
     })
       .populate([
         { path: 'userId', select: ['name', 'contactNumber'] },

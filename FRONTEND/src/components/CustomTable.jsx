@@ -57,12 +57,12 @@ const CustomTable = ({ token, data, fetchBookRequest }) => {
                                         <td>
                                             <div className="btn-group" role="group">
                                                 <button
-                                                    className={'btn btn-success btn-sm mr-2'}
+                                                    className={'btn btn-success mr-2'}
                                                     onClick={() => handleAccept(book.TransactionId)}>
                                                     ACCEPT
                                                 </button>
                                                 <button
-                                                    className={'btn btn-danger btn-sm'}
+                                                    className={'btn btn-danger'}
                                                     onClick={() => handleReject(book.TransactionId)}>
                                                     REJECT
                                                 </button>

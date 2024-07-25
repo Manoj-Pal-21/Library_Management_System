@@ -7,20 +7,27 @@ const Status = () => {
   const token = getToken('token');
 
   useEffect(() => {
-    const fetchBookRequests = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/api/transactions/issueDeatils', token);
-        setBookRequests(response.data);
-      } catch (error) {
-        console.error('Error fetching book requests:', error);
-      }
-    };
-
     fetchBookRequests();
   }, []);
 
-  const handleButtonClick = (requestId) => {
-    console.log(`Button clicked for request ID: ${requestId}`);
+  const fetchBookRequests = async () => {
+    try {
+      const response = await axios.get('http://localhost:3000/api/transactions/issueDeatils', token);
+      setBookRequests(response.data);
+    } catch (error) {
+      console.error('Error fetching book requests:', error);
+    }
+  };
+
+  const handleButtonClick = async (requestId) => {
+    try {
+      const response = await axios.put(`http://localhost:3000/api/transactions/issueAction/${requestId}?action=return`, {}, token);
+      console.log(response.data);
+      fetchBookRequests();
+    } catch (error) {
+      console.log('Error rejecting book request:', error);
+      toast.error('some thing went wrong');
+    }
   };
 
   return (
@@ -46,16 +53,21 @@ const Status = () => {
                   <td>{request.userId.contactNumber}</td>
                   <td>{request.transactionType?.toUpperCase()}</td>
                   <td>
-                    <button
-                      className="btn btn-primary"
-                      onClick={() => handleButtonClick(request._id)}
-                    >
-                      Returned
-                    </button>
+                    {request.transactionType?.toUpperCase() === "BORROWED" ? (
+                      <button
+                        className="btn btn-primary"
+                        onClick={() => handleButtonClick(request._id)}
+                      >
+                        Returned
+                      </button>
+                    ) : (
+                      "-"
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
+
           </table>
         ) : (
           <p>No data available</p>
