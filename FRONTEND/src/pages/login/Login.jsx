@@ -17,7 +17,7 @@ const Login = () => {
         event.preventDefault();
 
         try {
-            const response = await axios.post(`/api/auth/login`, {
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/login`, {
                 username,
                 password,
                 name
@@ -28,6 +28,7 @@ const Login = () => {
             navigate('/');
             toast.success(response.data.message);
         } catch (error) {
+            console.log(error)
             if (error.response && error.response.data && error.response.data.message) {
                 toast.error(error.response.data.message);
             } else {

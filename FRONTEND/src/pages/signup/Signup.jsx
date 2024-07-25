@@ -32,7 +32,7 @@ const SignUp = () => {
     const lowerCaseUsername = username.toLowerCase();
 
     try {
-      const response = await axios.post(`/api/auth/signup`, {
+      const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/auth/signup`, {
         ...formData,
         username: lowerCaseUsername
       });
@@ -44,6 +44,7 @@ const SignUp = () => {
         toast.success('Signed up successfully! Please sign in.');
       }
     } catch (error) {
+      console.log(error)
       if (error.response && error.response.data && error.response.data.message) {
         toast.error(error.response.data.message);
       } else {

@@ -21,7 +21,7 @@ const AllBooksTable = ({ getBookList }) => {
 
     const deleteBook = async (bookId) => {
         try {
-            const response = await axios.delete(`/api/books/${bookId}`, token);
+            const response = await axios.delete(`${import.meta.env.VITE_BASE_URL}/api/books/${bookId}`, token);
             console.log(response);
             getBookList()
             toast.success(`Book deleted successfully`);
@@ -34,7 +34,7 @@ const AllBooksTable = ({ getBookList }) => {
 
     const issueBook = async (bookId) => {
         try {
-            const response = await axios.post(`/api/transactions/issueBook/${bookId}`, {}, token);
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/api/transactions/issueBook/${bookId}`, {}, token);
             console.log(response);
             getBookList()
             toast.success(`Book issued successfully`);
