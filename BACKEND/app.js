@@ -23,7 +23,7 @@ app.use('/api/books', booksRoutes);
 app.use('/api/transactions', transactionsRoutes);
 
 // Serve static files from the frontend build directory
-const frontendPath = path.join(__dirname, './FRONTEND/dist');
+const frontendPath = path.join(__dirname, '../FRONTEND/dist');
 app.use(express.static(frontendPath));
 
 // Serve index.html for all other routes (SPA support)

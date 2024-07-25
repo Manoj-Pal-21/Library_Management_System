@@ -1,18 +1,23 @@
-import React from 'react'
+import React from 'react';
 import { selectUser } from '../redux/slice/auth';
 import { useSelector } from 'react-redux';
 
 const UserPanel = () => {
     const { user } = useSelector(selectUser);
-   
+
     return (
-        <div className="container-home">
-            <div className="card text-center">
-                <h2>Welcome, {user?.username}!</h2>
-                {user?.isAdmin ? <p>You are an admin.</p> : <p>You are not an admin.</p>}
+        <div className="container-fluid d-flex align-items-center justify-content-center" style={{ minHeight: '80vh' }}>
+            <div className="card text-center shadow">
+                <div className="card-body">
+                    <h2 className="card-title mb-4">Welcome, {user?.username}!</h2>
+                    {user?.isAdmin ? 
+                        <p className="card-text text-success">You are an admin.</p> : 
+                        <p className="card-text text-info">You are not an admin.</p>
+                    }
+                </div>
             </div>
         </div>
     );
 }
 
-export default UserPanel
+export default UserPanel;
