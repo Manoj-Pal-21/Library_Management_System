@@ -46,40 +46,45 @@ const AllBooksTable = ({ getBookList }) => {
 
     return (
         <div className="table-responsive">
-            <table className="table table-striped">
-                <thead className="thead-dark">
-                    <tr>
-                        <th>BookName</th>
-                        <th>Author</th>
-                        <th>Status</th>
-                        <th>Genre</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {books?.map((book, index) => (
-                        book.quantity > 0 && (
-                            <tr key={index}>
-                                <td>{book.name}</td>
-                                <td>{book.author}</td>
-                                <td>{book.availabilityStatus ? 'Available' : 'Not Available'}</td>
-                                <td>{book.genre}</td>
-                                <td>{book.quantity}</td>
-                                <td>
-                                    <button
-                                        className={`btn ${user && user.isAdmin ? 'btn-danger' : 'btn-primary'}`}
-                                        onClick={() => handleBookAction(book)}
-                                    >
-                                        {user && user.isAdmin ? 'Delete Book' : 'Issue Book'}
-                                    </button>
-                                </td>
-                            </tr>
-                        )
-                    ))}
-                </tbody>
+            {
+                books?.length > 0 ? (<table className="table table-striped">
+                    <thead className="thead-dark">
+                        <tr>
+                            <th>BookName</th>
+                            <th>Author</th>
+                            <th>Status</th>
+                            <th>Genre</th>
+                            <th>Quantity</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {books?.map((book, index) => (
+                            book.quantity > 0 && (
+                                <tr key={index}>
+                                    <td>{book.name}</td>
+                                    <td>{book.author}</td>
+                                    <td>{book.availabilityStatus ? 'Available' : 'Not Available'}</td>
+                                    <td>{book.genre}</td>
+                                    <td>{book.quantity}</td>
+                                    <td>
+                                        <button
+                                            className={`btn ${user && user.isAdmin ? 'btn-danger' : 'btn-primary'}`}
+                                            onClick={() => handleBookAction(book)}
+                                        >
+                                            {user && user.isAdmin ? 'Delete Book' : 'Issue Book'}
+                                        </button>
+                                    </td>
+                                </tr>
+                            )
+                        ))}
+                    </tbody>
+                </table>
+                ) : (
+                    <p>No data available</p>
+                )
+            }
 
-            </table>
             <Toaster />
         </div>
     );

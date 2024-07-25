@@ -98,23 +98,28 @@ const IssuedBooks = () => {
           <div className="container">
             <div className="pending-requests">
               <h4 className="mt-3">Pending Books</h4>
-              <ul className="list-group">
-                {pendingBookRequest.map((book, index) => (
-                  <li key={index} className="list-group-item">
-                    <div className="d-flex justify-content-between align-items-center">
-                      <h6>BookName : {book?.bookId?.name}</h6>
-                      <button
-                        className="btn btn-outline-danger"
-                        onClick={() => handleDelete(book._id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              {pendingBookRequest.length > 0 ? (
+                <ul className="list-group">
+                  {pendingBookRequest.map((book, index) => (
+                    <li key={index} className="list-group-item">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <h6>BookName: {book?.bookId?.name}</h6>
+                        <button
+                          className="btn btn-outline-danger"
+                          onClick={() => handleDelete(book._id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p>No data available</p>
+              )}
             </div>
           </div>
+
         </div>
 
         <div
@@ -126,28 +131,35 @@ const IssuedBooks = () => {
           <div className="container">
             <div className="table-responsive">
               <h4 className="mt-3">Issued Books</h4>
-              <table className="table table-striped">
-                <thead className="thead-dark">
-                  <tr>
-                    <th>Book Name</th>
-                    <th>Issue Date</th>
-                    <th>Due Date</th>
-                    <th>Details</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {issuedBooks?.map((book, index) => (
-                    <tr key={index}>
-                      <td>{book?.bookId?.name}</td>
-                      <td>{formatDate(book?.issueDate)}</td>
-                      <td>{formatDate(book?.dueDate)}</td>
-                      <td>{book?.issueStatus ? 'BARROWED' : 'RETURNED'}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+              {
+                issuedBooks?.length > 0 ? (
+                  <table className="table table-striped">
+                    <thead className="thead-dark">
+                      <tr>
+                        <th>Book Name</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Details</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {issuedBooks.map((book, index) => (
+                        <tr key={index}>
+                          <td>{book.bookId.name}</td>
+                          <td>{formatDate(book.issueDate)}</td>
+                          <td>{formatDate(book.dueDate)}</td>
+                          <td>{book.issueStatus ? 'BORROWED' : 'RETURNED'}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <p>No data available</p>
+                )
+              }
             </div>
           </div>
+
         </div>
       </div>
 
