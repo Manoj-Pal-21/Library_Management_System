@@ -17,6 +17,8 @@ const BookRequest = () => {
     fetchBookRequests();
   }, []);
 
+  console.log(token, "token")
+
   const fetchBookRequests = async () => {
     try {
       const response = await axios.get('http://localhost:3000/api/transactions/getbookrequest', token);
@@ -32,7 +34,7 @@ const BookRequest = () => {
   return (
     <div className="container mt-4">
       <h2>Ussued Books Request</h2>
-      {requests.length > 0 && <CustomTable data={requests} token={token} fetchBookRequest={fetchBookRequests}/>}
+      {<CustomTable data={requests} token={token} fetchBookRequest={fetchBookRequests} />}
     </div>
   );
 };

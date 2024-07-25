@@ -98,7 +98,7 @@ const IssuedBooks = () => {
           <div className="container">
             <div className="pending-requests">
               <h4 className="mt-3">Pending Books</h4>
-              {pendingBookRequest.length > 0 ? (
+              {pendingBookRequest?.length > 0 ? (
                 <ul className="list-group">
                   {pendingBookRequest.map((book, index) => (
                     <li key={index} className="list-group-item">
