@@ -36,7 +36,6 @@ const IssuedBooks = () => {
 
       setIssuedBooks(issued);
       setPendingBookRequest(pending);
-      toast.success("Books fetched successfully!");
     } catch (error) {
       console.log(error);
       toast.error("Failed to fetch books.");

@@ -84,11 +84,28 @@ const updateIssueRequest = async (req, res) => {
   }
 };
 
+const issueDetails = async (req, res) => {
+  try {
+    const response = await Transaction.find({
+      transactionType: "borrowed" || "returned",
+    })
+      .populate([
+        { path: 'userId', select: ['name', 'contactNumber'] },
+        { path: 'bookId', select: 'name' }
+      ]);
+
+    res.status(200).json(response);
+  } catch (error) {
+    console.error('Error fetching issue details:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
+
 const deleteTransation = async (req, res) => {
   const { transactionId } = req.params;
 
   try {
-    
+
     const deletedTransaction = await Transaction.findByIdAndDelete(transactionId);
 
     if (!deletedTransaction) {
@@ -102,4 +119,4 @@ const deleteTransation = async (req, res) => {
   }
 };
 
-module.exports = { updateIssueRequest, addTransaction, getBookRequest, deleteTransation };
+module.exports = { updateIssueRequest, addTransaction, getBookRequest, deleteTransation, issueDetails };
