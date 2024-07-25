@@ -13,7 +13,7 @@ const AllBooks = () => {
 
     const getBookList = async () => {
         try {
-            const response = await axios.get('http://localhost:3000/api/books');
+            const response = await axios.get(`${process.env.DOMAIN}/api/books`);
             dispatch(setBooks(response.data));
         } catch (error) {
             console.log('Error fetching books:', error);
@@ -23,7 +23,7 @@ const AllBooks = () => {
     return (
         <div className="container mt-4">
             <h2>Book List</h2>
-            <AllBooksTable getBookList={getBookList}/>
+            <AllBooksTable getBookList={getBookList} />
         </div>
     )
 }

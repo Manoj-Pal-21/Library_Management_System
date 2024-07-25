@@ -7,7 +7,7 @@ const CustomTable = ({ token, data, fetchBookRequest }) => {
 
     const handleAccept = async (transactionId) => {
         try {
-            const response = await axios.put(`http://localhost:3000/api/transactions/issueAction/${transactionId}?action=accept`, {}, token);
+            const response = await axios.put(`${process.env.DOMAIN}/api/transactions/issueAction/${transactionId}?action=accept`, {}, token);
             console.log(response.data);
             fetchBookRequest()
             toast.success('Book accepted successfully');
@@ -19,7 +19,7 @@ const CustomTable = ({ token, data, fetchBookRequest }) => {
 
     const handleReject = async (transactionId) => {
         try {
-            const response = await axios.put(`http://localhost:3000/api/transactions/issueAction/${transactionId}?action=reject`, {}, token);
+            const response = await axios.put(`${process.env.DOMAIN}/api/transactions/issueAction/${transactionId}?action=reject`, {}, token);
             console.log(response.data);
             fetchBookRequest()
             toast.success('Book request rejected successfully');

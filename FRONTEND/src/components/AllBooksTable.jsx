@@ -21,7 +21,7 @@ const AllBooksTable = ({ getBookList }) => {
 
     const deleteBook = async (bookId) => {
         try {
-            const response = await axios.delete(`http://localhost:3000/api/books/${bookId}`, token);
+            const response = await axios.delete(`${process.env.DOMAIN}/api/books/${bookId}`, token);
             console.log(response);
             getBookList()
             toast.success(`Book deleted successfully`);
@@ -34,7 +34,7 @@ const AllBooksTable = ({ getBookList }) => {
 
     const issueBook = async (bookId) => {
         try {
-            const response = await axios.post(`http://localhost:3000/api/transactions/issueBook/${bookId}`, {}, token);
+            const response = await axios.post(`${process.env.DOMAIN}/api/transactions/issueBook/${bookId}`, {}, token);
             console.log(response);
             getBookList()
             toast.success(`Book issued successfully`);

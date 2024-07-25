@@ -12,7 +12,7 @@ const Status = () => {
 
   const fetchBookRequests = async () => {
     try {
-      const response = await axios.get('http://localhost:3000/api/transactions/issueDeatils', token);
+      const response = await axios.get(`${process.env.DOMAIN}/api/transactions/issueDeatils`, token);
       setBookRequests(response.data);
     } catch (error) {
       console.error('Error fetching book requests:', error);
@@ -21,7 +21,7 @@ const Status = () => {
 
   const handleButtonClick = async (requestId) => {
     try {
-      const response = await axios.put(`http://localhost:3000/api/transactions/issueAction/${requestId}?action=return`, {}, token);
+      const response = await axios.put(`${process.env.DOMAIN}/api/transactions/issueAction/${requestId}?action=return`, {}, token);
       console.log(response.data);
       fetchBookRequests();
     } catch (error) {

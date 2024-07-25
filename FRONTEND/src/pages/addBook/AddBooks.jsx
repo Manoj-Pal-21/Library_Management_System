@@ -20,7 +20,7 @@ const AddBookForm = () => {
     genre: '',
   });
 
-  
+
   const handleChange = (e) => {
     const { id, value } = e.target;
     if (id === 'quantity') {
@@ -41,7 +41,7 @@ const AddBookForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post('http://localhost:3000/api/books/add', formData, token);
+      const response = await axios.post(`${process.env.DOMAIN}/api/books/add`, formData, token);
       dispatch(addBook(response.data));
       toast.success('Book added successfully!');
       setFormData({
