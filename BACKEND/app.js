@@ -17,6 +17,9 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use("/", () => {
+  res.send("server is running")
+})
 
 app.use('/api/auth', authRoutes);
 app.use('/api/books', booksRoutes);
