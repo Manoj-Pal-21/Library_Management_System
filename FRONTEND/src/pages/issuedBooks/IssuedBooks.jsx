@@ -22,7 +22,7 @@ const IssuedBooks = () => {
   const getIssuedBookList = async () => {
     try {
       const response = await axios.get(
-        `${process.env.DOMAIN}/api/books/getIssuedBooks`, token);
+        `/api/books/getIssuedBooks`, token);
 
       const data = response.data
       const issued = data.filter(
@@ -44,7 +44,7 @@ const IssuedBooks = () => {
 
   const handleDelete = async (transactionId) => {
     try {
-      const response = await axios.delete(`${process.env.DOMAIN}/api/transactions/deletetransaction/${transactionId}`, token);
+      const response = await axios.delete(`/api/transactions/deletetransaction/${transactionId}`, token);
       console.log(response);
       toast.success('Transaction deleted successfully');
       getIssuedBookList()

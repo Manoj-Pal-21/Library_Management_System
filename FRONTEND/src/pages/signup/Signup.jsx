@@ -32,7 +32,7 @@ const SignUp = () => {
     const lowerCaseUsername = username.toLowerCase();
 
     try {
-      const response = await axios.post(`${process.env.DOMAIN}/api/auth/signup`, {
+      const response = await axios.post(`/api/auth/signup`, {
         ...formData,
         username: lowerCaseUsername
       });
