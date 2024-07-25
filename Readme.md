@@ -69,7 +69,5 @@ To run this project locally, follow these steps:
 ## Contributing
 Contributions are welcome! Fork the repository and submit a pull request with your improvements.
 
-## Deployed Link
-[https://library-management-system-nko0.onrender.com/](https://library-management-system-nko0.onrender.com/)
 
 
