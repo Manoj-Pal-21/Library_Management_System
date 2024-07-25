@@ -17,7 +17,7 @@ app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use("/", (req, res) => {
+app.use("/checkserver", (req, res) => {
   res.send("server is running")
 })
 
