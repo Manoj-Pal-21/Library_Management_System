@@ -25,15 +25,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/books', booksRoutes);
 app.use('/api/transactions', transactionsRoutes);
 
-// Serve static files from the frontend build directory
-const frontendPath = path.join(__dirname, '../FRONTEND/dist');
-app.use(express.static(frontendPath));
-
-// Serve index.html for all other routes (SPA support)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(frontendPath, 'index.html'));
-});
-
 // Start server
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
