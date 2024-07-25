@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
   "server": "nodemon ./BACKEND/app.js",
-  "start": "node ./BACKEND/app.js"
+  "start": "node ./BACKEND/app.js",
+  "build": "npm install && npm install --prefix FRONTEND && npm run build --prefix FRONTEND"
 },
   "keywords": [],
   "author": "",
