@@ -10,9 +10,8 @@ const UserPanel = () => {
             <div className="card text-center shadow">
                 <div className="card-body">
                     <h2 className="card-title mb-4">Welcome, {user?.username}!</h2>
-                    {user?.isAdmin ? 
-                        <p className="card-text text-success">You are an admin.</p> : 
-                        <p className="card-text text-info">You are not an admin.</p>
+                    {user?.isAdmin &&
+                        <p className="card-text text-success">You are an admin.</p>
                     }
                 </div>
             </div>
