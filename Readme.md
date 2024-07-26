@@ -13,7 +13,7 @@ This project is a Library Management System implemented using the MERN stack (Mo
 
 ### For Admins:
 - **Authentication:** Separate login for admin access.
-- **Admin Credentials:** Username: `manoj21` | Name: `manoj pal` | Password: `123456`
+- **Admin Credentials:** Username: `manoj21` | Password: `123456`
 - **Manage Books:**
   - View all books in the library.
   - Add new books to the library.
@@ -64,7 +64,7 @@ To run this project locally, follow these steps:
 
 ## Usage
 - **User:** Sign up or login using the provided forms. Browse available books, issue books, and manage issued books.
-- **Admin:** Access the admin panel by logging in with the provided admin credentials (Username: `manoj21` | Name: `manoj pal` | Password: `123456`). Manage books (add, delete), review and manage book issuance requests, and view user details.
+- **Admin:** Access the admin panel by logging in with the provided admin credentials (Username: `manoj21` | Password: `123456`). Manage books (add, delete), review and manage book issuance requests, and view user details.
 
 ## Contributing
 Contributions are welcome! Fork the repository and submit a pull request with your improvements.
