@@ -21,7 +21,7 @@ const login = async (req, res) => {
       return res.status(401).json({ message: 'Invalid Password' });
     }
 
-    const token = generateTokenAndSetCookie(user._id, user.isAdmin, res);
+    const token = generateTokenAndSetCookie(user._id, user.isAdmin);
 
     res.status(200).json({ token, user: user, message: "Login Successfull" })
 
